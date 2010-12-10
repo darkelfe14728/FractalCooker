@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="Data/Headers/Afficheur2D.h" open="0" top="0" tabpos="2">
+		<Cursor position="1208" topLine="18" />
+	</File>
+	<File name="Data/Headers/Afficheur3D.h" open="0" top="0" tabpos="4">
+		<Cursor position="1786" topLine="0" />
+	</File>
+	<File name="Data/Headers/MainWindow.h" open="0" top="0" tabpos="1">
+		<Cursor position="1762" topLine="21" />
+	</File>
+	<File name="Data/Headers/Plugins.h" open="0" top="0" tabpos="5">
+		<Cursor position="1142" topLine="0" />
+	</File>
+	<File name="Data/Sources/Afficheur2D.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="4693" topLine="60" />
+	</File>
+	<File name="Data/Sources/Afficheur3D.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="1363" topLine="7" />
+	</File>
+	<File name="Data/Sources/MainWindow.cpp" open="1" top="1" tabpos="0">
+		<Cursor position="3471" topLine="0" />
+	</File>
+	<File name="Data/Sources/Plugins.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="1407" topLine="0" />
+	</File>
+	<File name="Data/Sources/main.cpp" open="0" top="0" tabpos="4">
+		<Cursor position="1449" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>
