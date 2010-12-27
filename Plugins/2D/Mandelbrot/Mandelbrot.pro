@@ -33,7 +33,7 @@ CONFIG(debug, debug|release) {
 ################################################## Paramètres globaux ###################################################
 TARGET		=	$${PROJECT}$${PROJECT_SUFFIX}
 #TARGET_EXT	=	.fcp									# FractalCooker Plugin
-TEMPLATE	=	app
+TEMPLATE	=	lib
 VERSION		=	$${VER_MAJ}.$${VER_MIN}.$${VER_PAT}
 
 message(Projet $$PROJECT $$VERSION)
@@ -63,5 +63,5 @@ CODECFORSRC	=	UTF-8
 
 ####################################################### Fichiers ########################################################
 HEADERS		+=	Data/Headers/*.h \
-				$${RACINE}/Interfaces/*.h
+				$${RACINE}/Interfaces/Fractal2D.h
 SOURCES		+=	Data/Sources/*.cpp
