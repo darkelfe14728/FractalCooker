@@ -46,7 +46,9 @@ win32:QMAKE_DISTCLEAN	+=	*_resource.rc \
 							object_script.*
 
 ###################################################### Répertoires ######################################################
-DESTDIR		=	../Final
+RACINE		=	..
+
+DESTDIR		=	$${RACINE}/Final
 
 OBJECTS_DIR	=	Temp/objs$${PROJECT_SUFFIX}
 MOC_DIR		=	Temp/mocs$${PROJECT_SUFFIX}
@@ -55,7 +57,7 @@ RCC_DIR		=	Temp/rccs$${PROJECT_SUFFIX}
 
 ##################################################### Configuration #####################################################
 INCLUDEPATH	+=	Data/Headers \
-				../Interfaces \
+				$${RACINE}/Interfaces \
 				$$UI_DIR
 DEPENDPATH	+=	Data/Sources \
 				$$RCC_DIR
@@ -67,7 +69,7 @@ CODECFORSRC	=	UTF-8
 
 ####################################################### Fichiers ########################################################
 HEADERS		+=	Data/Headers/*.h \
-				../Interfaces/*.h
+				$${RACINE}/Interfaces/*.h
 SOURCES		+=	Data/Sources/*.cpp
 FORMS		+=	Data/Forms/*.ui
 RESOURCES	+=	Data/*.qrc
