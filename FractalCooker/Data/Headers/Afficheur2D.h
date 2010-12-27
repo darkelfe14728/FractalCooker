@@ -27,7 +27,7 @@
 #ifndef HEADERGUARD_PROGRAM_AFFICHEUR2D_H
 #define HEADERGUARD_PROGRAM_AFFICHEUR2D_H
 
-	#include "Fractale2D.h"
+	#include <Fractale2D.h>
 
 	#include <QtGui/QPaintEvent>
 	#include <QtGui/QWidget>

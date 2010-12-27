@@ -55,7 +55,7 @@ RCC_DIR		=	Temp/rccs$${PROJECT_SUFFIX}
 
 ##################################################### Configuration #####################################################
 INCLUDEPATH	+=	Data/Headers \
-				Data/Headers/Interfaces \
+				../Interfaces \
 				$$UI_DIR
 DEPENDPATH	+=	Data/Sources \
 				$$RCC_DIR
@@ -67,7 +67,7 @@ CODECFORSRC	=	UTF-8
 
 ####################################################### Fichiers ########################################################
 HEADERS		+=	Data/Headers/*.h \
-				Data/Headers/Interfaces/*.h
+				../Interfaces/*.h
 SOURCES		+=	Data/Sources/*.cpp
 FORMS		+=	Data/Forms/*.ui
 RESOURCES	+=	Data/*.qrc

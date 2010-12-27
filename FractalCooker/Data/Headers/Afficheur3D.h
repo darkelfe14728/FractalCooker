@@ -27,7 +27,7 @@
 #ifndef HEADERGUARD_PROGRAM_AFFICHEUR3D_H
 #define HEADERGUARD_PROGRAM_AFFICHEUR3D_H
 
-	#include "Fractale3D.h"
+	#include <Fractale3D.h>
 
 	#include <QtGui/QKeyEvent>
 	#include <QtGui/QWheelEvent>

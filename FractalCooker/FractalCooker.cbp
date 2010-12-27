@@ -37,8 +37,6 @@
 		<Unit filename="Data/Forms/Plugins.ui" />
 		<Unit filename="Data/Headers/Afficheur2D.h" />
 		<Unit filename="Data/Headers/Afficheur3D.h" />
-		<Unit filename="Data/Headers/Interfaces/Fractale2D.h" />
-		<Unit filename="Data/Headers/Interfaces/Fractale3D.h" />
 		<Unit filename="Data/Headers/MainWindow.h" />
 		<Unit filename="Data/Headers/Plugins.h" />
 		<Unit filename="Data/Sources/Afficheur2D.cpp" />
