@@ -32,7 +32,6 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="../../../FractaleCooker/Data/Headers/Interfaces/Fractale2D.h" />
 		<Unit filename="Data/Headers/Mandelbrot.h" />
 		<Unit filename="Data/Sources/Mandelbrot.cpp" />
 		<Unit filename="Licence.txt" />
