@@ -1,62 +1,73 @@
 #########################################################################################################################
-
+#																														#
+#													  Julien Rosset														#
+#																														#
 #########################################################################################################################
-##################################################### Julien Rosset #####################################################
-#########################################################################################################################
-
-#########################################################################################################################
-################################### A MODIFIER QUE SI VOUS MODIFIEZ LE CODE DU PROJET ###################################
-#########################################################################################################################
-
-#########################################################################################################################
-################################################ Configuration du projet ################################################
+#																														#
+# 										  Projet : FractalCooker - Programme											#
+#																														#
 #########################################################################################################################
 
-#########################################################################################################################
+############################################## Informations sur le projet ###############################################
+PROJECT		=	FractalCooker
+VER_MAJ		=	1
+VER_MIN		=	0
+VER_PAT		=	0
 
 ################################################# Réglages utilisateur ##################################################
-CONFIG	+=	 silent warn_on debug
+win32 {
+	CONFIG	+=	debug
 
+	CONFIG(debug,debug|release):CONFIG += console
+}
+else {
+	CONFIG	+=	debug
+}
+
+################################################## Suffixe automatique ##################################################
 PROJECT_SUFFIX	=
 CONFIG(debug, debug|release) {
 	PROJECT_SUFFIX	=	d
 }
 
-############################################## Informations sur le projet ###############################################
-TARGET		=	FractalCooker$$PROJECT_SUFFIX
-#TARGET_EXT	=	.fcp								# FractalCooker Plugin
+################################################## Paramètres globaux ###################################################
+TARGET		=	$${PROJECT}$${PROJECT_SUFFIX}
+#TARGET_EXT	=	.fcp									# FractalCooker Plugin
 TEMPLATE	=	app
-
-VER_MAJ		=	1
-VER_MIN		=	0
-VER_PAT		=	0
 VERSION		=	$${VER_MAJ}.$${VER_MIN}.$${VER_PAT}
 
 message(Projet $$PROJECT $$VERSION)
 
-#################################################### Réglages de Qt #####################################################
-QT	+=	opengl
+####################################### Mode de compilation (statique/dynamique) ########################################
+CONFIG		+=	warn_on link_prl silent
+
+####################################################### Nettoyage #######################################################
+win32:QMAKE_DISTCLEAN	+=	*_resource.rc \
+							object_script.*
+
+###################################################### Répertoires ######################################################
+DESTDIR		=	../Final
+
+OBJECTS_DIR	=	Temp/objs$${PROJECT_SUFFIX}
+MOC_DIR		=	Temp/mocs$${PROJECT_SUFFIX}
+UI_DIR		=	Temp/uics$${PROJECT_SUFFIX}
+RCC_DIR		=	Temp/rccs$${PROJECT_SUFFIX}
+
+##################################################### Configuration #####################################################
+INCLUDEPATH	+=	Data/Headers \
+				Data/Headers/Interfaces \
+				$$UI_DIR
+DEPENDPATH	+=	Data/Sources \
+				$$RCC_DIR
+
+QT			+=	opengl
 
 CODECFORTR	=	UTF-8
 CODECFORSRC	=	UTF-8
 
-################################################# Sources du programme ##################################################
-DESTDIR		=	FractalCooker
-
-OBJECTS_DIR	=	Temp/objs$$PROJECT_SUFFIX
-MOC_DIR		=	Temp/mocs$$PROJECT_SUFFIX
-UI_DIR		=	Temp/uics$$PROJECT_SUFFIX
-RCC_DIR		=	Temp/rccs$$PROJECT_SUFFIX
-
-FORMS		+=	Data/Forms/*.ui
-
-INCLUDEPATH	+=	Data/Headers \
-				Data/Headers/Interfaces
+####################################################### Fichiers ########################################################
 HEADERS		+=	Data/Headers/*.h \
 				Data/Headers/Interfaces/*.h
-
-DEPENDPATH	+=	Data/Sources
 SOURCES		+=	Data/Sources/*.cpp
-
-DEPENDPATH	+=	$$RCC_DIR
+FORMS		+=	Data/Forms/*.ui
 RESOURCES	+=	Data/*.qrc
