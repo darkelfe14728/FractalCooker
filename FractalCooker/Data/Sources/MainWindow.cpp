@@ -86,7 +86,7 @@ void MainWindow::aboutPlugins () {
 void MainWindow::initPluginDirPath () {
 	m_pluginPath = qApp->applicationDirPath();
 
-	m_pluginPath.cdUp();				// Pendant la phase de développement
+	//m_pluginPath.cdUp();				// Pendant la phase de développement
 	m_pluginPath.cd("Plugins");
 }
 
