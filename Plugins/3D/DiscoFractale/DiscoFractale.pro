@@ -1,68 +1,69 @@
 #########################################################################################################################
-
+#																														#
+#													  Julien Rosset														#
+#																														#
 #########################################################################################################################
-##################################################### Julien Rosset #####################################################
-#########################################################################################################################
-
-#########################################################################################################################
-################################### A MODIFIER QUE SI VOUS MODIFIEZ LE CODE DU PROJET ###################################
-#########################################################################################################################
-
-#########################################################################################################################
-################################################ Configuration du projet ################################################
+#																														#
+#								   Projet : FractalCooker - Plugin 3D - DiscoFractal									#
+#																														#
 #########################################################################################################################
 
-#########################################################################################################################
+############################################## Informations sur le projet ###############################################
+PROJECT		=	DiscoFractal
+VER_MAJ		=	1
+VER_MIN		=	0
+VER_PAT		=	0
 
 ################################################# Réglages utilisateur ##################################################
-CONFIG	+=	 silent warn_on plugin debug
+win32 {
+	CONFIG	+=	debug
 
+	CONFIG(debug,debug|release):CONFIG += console
+}
+else {
+	CONFIG	+=	debug
+}
+
+################################################## Suffixe automatique ##################################################
 PROJECT_SUFFIX	=
 CONFIG(debug, debug|release) {
 	PROJECT_SUFFIX	=	d
 }
 
-############################################## Informations sur le projet ###############################################
-TARGET		=	DiscoFractale$$PROJECT_SUFFIX
-#TARGET_EXT	=	.fcp								# FractaleCooker Plugin
+################################################## Paramètres globaux ###################################################
+TARGET		=	$${PROJECT}$${PROJECT_SUFFIX}
+#TARGET_EXT	=	.fcp									# FractalCooker Plugin
 TEMPLATE	=	lib
-
-VER_MAJ		=	1
-VER_MIN		=	0
-VER_PAT		=	0
 VERSION		=	$${VER_MAJ}.$${VER_MIN}.$${VER_PAT}
 
 message(Projet $$PROJECT $$VERSION)
 
-#################################################### Réglage de Qt ######################################################
-QT	+=	opengl
+####################################### Mode de compilation (statique/dynamique) ########################################
+CONFIG			+=	warn_on silent plugin dll
 
-############################################ Réglages du mode de compilation ############################################
-win32:CONFIG	+=	dll
+####################################################### Nettoyage #######################################################
+win32:QMAKE_DISTCLEAN	+=	*_resource.rc \
+							object_script.*
 
-CONFIG(staticlib, staticlib|dll) {
-	DEFINES	+=	$$upper($$PROJECT)_DEFINE_COMPILATION_STATIC
-	message(--- Mode statique)
-}
-CONFIG(dll, staticlib|dll) {
-	DEFINES	+=	$$upper($$PROJECT)_DEFINE_COMPILATION_DYNAMIC
-	message(--- Mode dynamique)
-}
+###################################################### Répertoires ######################################################
+RACINE		=	../../..
 
-################################################# Sources du programme ##################################################
-OBJECTS_DIR	=	Temp/objs$$PROJECT_SUFFIX
-MOC_DIR		=	Temp/mocs$$PROJECT_SUFFIX
+DESTDIR		=	$${RACINE}/Final/Plugins
 
-INCLUDEPATH	+=	Data/Headers
-HEADERS		+=	Data/Headers/*.h
+OBJECTS_DIR	=	Temp/objs$${PROJECT_SUFFIX}
+MOC_DIR		=	Temp/mocs$${PROJECT_SUFFIX}
 
+##################################################### Configuration #####################################################
+INCLUDEPATH	+=	Data/Headers \
+				$${RACINE}/Interfaces
+DEPENDPATH	+=	Data/Sources
+
+QT			+=	opengl
+
+CODECFORTR	=	UTF-8
+CODECFORSRC	=	UTF-8
+
+####################################################### Fichiers ########################################################
+HEADERS		+=	Data/Headers/*.h \
+				$${RACINE}/Interfaces/Fractale3D.h
 SOURCES		+=	Data/Sources/*.cpp
-
-################################################## Réglages programme ###################################################
-PROGRAM		=	../../../FractalCooker
-INTERFACE	=	$${PROGRAM}/Data/Headers/Interfaces
-
-INCLUDEPATH	+=	$$INTERFACE
-HEADERS		+=	$${INTERFACE}/Fractale2D.h
-
-DESTDIR		=	$${PROGRAM}/Plugins/
