@@ -32,9 +32,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="../../../FractaleCooker/Data/Headers/Interfaces/Fractale3D.h" />
 		<Unit filename="Data/Headers/EpongeMenger.h" />
 		<Unit filename="Data/Sources/EpongeMenger.cpp" />
+		<Unit filename="EpongeMenger.pro" />
 		<Unit filename="Licence.txt" />
 		<Unit filename="Licence_Qt.txt" />
 		<Extensions>
