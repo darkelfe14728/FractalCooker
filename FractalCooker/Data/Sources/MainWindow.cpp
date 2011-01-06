@@ -34,119 +34,119 @@
 #include <QtGui/QAction>
 
 MainWindow::MainWindow (QWidget * parent/* = 0*/,
-						Qt::WindowFlags flags/* = 0*/) :
-	QMainWindow(parent, flags) {
+                        Qt::WindowFlags flags/* = 0*/) :
+    QMainWindow(parent, flags) {
 
-	m_ui.setupUi(this);
+    m_ui.setupUi(this);
 
-	connect(m_ui.action_Quitter, SIGNAL(triggered()), this, SLOT(close()));
-	connect(m_ui.action_AboutPlugins, SIGNAL(triggered()), this, SLOT(aboutPlugins()));
+    connect(m_ui.action_Fichier_Quitter, SIGNAL(triggered()), this, SLOT(close()));
+    connect(m_ui.action_Aide_AboutPlugins, SIGNAL(triggered()), this, SLOT(aboutPlugins()));
 
-	m_ui.aff3D->hide();
+    m_ui.page_fractales_3D->hide();
 
 //	m_ui.options2D->hide();
 //	m_ui.options3D->hide();
 
-	m_pluginGroup = new QActionGroup(m_ui.menu_Plugins);
-	m_pluginGroup->setExclusive(true);
+    m_pluginGroup = new QActionGroup(m_ui.menu_Plugins);
+    m_pluginGroup->setExclusive(true);
 
-	connect(m_pluginGroup, SIGNAL(triggered(QAction *)), this, SLOT(loadPlugin(QAction *)));
+    connect(m_pluginGroup, SIGNAL(triggered(QAction *)), this, SLOT(loadPlugin(QAction *)));
 
-	initPluginDirPath();
-	findPlugins();
+    initPluginDirPath();
+    findPlugins();
 }
 
 
 
 void MainWindow::findPlugins () {
 
-	m_pluginFiles.clear();				// Reset de la liste des plugins
+    m_pluginFiles.clear();				// Reset de la liste des plugins
 
-	QStringList pluginsFiles = m_pluginPath.entryList(QDir::Files);
+    QStringList pluginsFiles = m_pluginPath.entryList(QDir::Files);
 
-	foreach(QString curr, pluginsFiles) {
-		QPluginLoader loader(m_pluginPath.absoluteFilePath(curr));
-		QObject * plugin = loader.instance();
+    foreach(QString curr, pluginsFiles) {
+        QPluginLoader loader(m_pluginPath.absoluteFilePath(curr));
+        QObject * plugin = loader.instance();
 
-		if(plugin) {
-			m_pluginFiles += curr;
-			addToMenu(plugin, curr);
-		}
-	}
+        if(plugin) {
+            m_pluginFiles += curr;
+            addToMenu(plugin, curr);
+        }
+    }
 }
 
 void MainWindow::aboutPlugins () {
 
-	Plugins about(m_pluginPath, m_pluginFiles, this);
-	about.exec();
+    Plugins about(m_pluginPath, m_pluginFiles, this);
+    about.exec();
 }
 
 
 
 void MainWindow::initPluginDirPath () {
-	m_pluginPath = qApp->applicationDirPath();
+    m_pluginPath = qApp->applicationDirPath();
 
-	//m_pluginPath.cdUp();				// Pendant la phase de développement
-	m_pluginPath.cd("Plugins");
+    //m_pluginPath.cdUp();				// Pendant la phase de développement
+    m_pluginPath.cd("Plugins");
 }
 
 void MainWindow::addToMenu (QObject * plugin,
-							const QString & path) {
+                            const QString & path) {
 
-	Fractale2D * fract2D = qobject_cast<Fractale2D *>(plugin);
-	if(fract2D) {
-		QAction * action = new QAction(fract2D->name(), plugin);
-		action->setCheckable(true);
-		action->setToolTip(path);
+    Fractale2D * fract2D = qobject_cast<Fractale2D *>(plugin);
+    if(fract2D) {
+        QAction * action = new QAction(fract2D->name(), plugin);
+        action->setCheckable(true);
+        action->setToolTip(path);
 
-		m_pluginGroup->addAction(action);
+        m_pluginGroup->addAction(action);
 
-		m_ui.menu_Plugins2D->addAction(action);
-	}
-	else {
+        m_ui.menu_Plugins_2D->addAction(action);
+    }
+    else {
 
-		Fractale3D * fract3D = qobject_cast<Fractale3D *>(plugin);
-		if(fract3D) {
-			QAction * action = new QAction(fract3D->name(), plugin);
-			action->setCheckable(true);
-			action->setToolTip(path);
+        Fractale3D * fract3D = qobject_cast<Fractale3D *>(plugin);
+        if(fract3D) {
+            QAction * action = new QAction(fract3D->name(), plugin);
+            action->setCheckable(true);
+            action->setToolTip(path);
 
-			m_pluginGroup->addAction(action);
+            m_pluginGroup->addAction(action);
 
-			m_ui.menu_Plugins3D->addAction(action);
-		}
-	}
+            m_ui.menu_Plugins_3D->addAction(action);
+        }
+    }
 }
 
 void MainWindow::loadPlugin (QAction * action) {
 
-	Fractale2D * fract2D = qobject_cast<Fractale2D *>(action->parent());
-	if(fract2D) {
-		if(!m_ui.aff2D->isVisible()) {
-			m_ui.aff3D->hide();
-			m_ui.aff2D->show();
-		}
+    Fractale2D * fract2D = qobject_cast<Fractale2D *>(action->parent());
+    if(fract2D) {
+        if(!m_ui.page_fractales_2D->isVisible()) {
+            m_ui.page_fractales_3D->hide();
+            m_ui.page_fractales_2D->show();
+        }
 
-		// TODO : Utile ?
-		//m_ui.aff3D->clear();
+        // TODO : Utile ?
+        //m_ui.aff3D->clear();
 
-		if(!m_ui.aff2D->loadFractal(fract2D))
-			action->setChecked(false);
-	}
-	else {
-		Fractale3D * fract3D = qobject_cast<Fractale3D *>(action->parent());
-		if(fract3D) {
-			if(!m_ui.aff3D->isVisible()) {
-				m_ui.aff3D->show();
-				m_ui.aff2D->hide();
-			}
+        if(!m_ui.page_fractales_2D->loadFractal(fract2D))
+            action->setChecked(false);
+    }
+    else {
+        Fractale3D * fract3D = qobject_cast<Fractale3D *>(action->parent());
+        if(fract3D) {
+            if(!m_ui.page_fractales_3D->isVisible()) {
+                m_ui.page_fractales_3D->show();
+                m_ui.page_fractales_2D->hide();
+            }
 
-			m_ui.aff3D->loadFractal(fract3D);
+            m_ui.page_fractales_3D->loadFractal(fract3D);
 
-			if(m_ui.aff3D->canceled())
-				action->setChecked(false);
-		}
-	}
+            if(m_ui.page_fractales_3D->canceled())
+                action->setChecked(false);
+        }
+    }
 }
 
 
