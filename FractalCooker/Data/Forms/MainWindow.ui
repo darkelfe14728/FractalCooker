@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>FractalCooker</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../Images.qrc">
@@ -36,7 +36,7 @@
      <x>0</x>
      <y>0</y>
      <width>845</width>
-     <height>23</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Aide">
@@ -78,7 +78,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="options">
    <property name="features">
-    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+    <set>QDockWidget::AllDockWidgetFeatures</set>
    </property>
    <property name="windowTitle">
     <string>Options</string>
@@ -103,16 +103,16 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-32</y>
-          <width>335</width>
-          <height>494</height>
+          <y>-54</y>
+          <width>375</width>
+          <height>530</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
           <widget class="QStackedWidget" name="stack_options">
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="page_options_3D">
             <layout class="QVBoxLayout" name="layout_page_options_3D">
@@ -218,7 +218,7 @@
                 <item row="6" column="0">
                  <widget class="QLabel" name="lbl_colorHaut">
                   <property name="text">
-                   <string>Face du haut :</string>
+                   <string>Face haut :</string>
                   </property>
                   <property name="buddy">
                    <cstring>colorHaut</cstring>
@@ -231,7 +231,7 @@
                 <item row="7" column="0">
                  <widget class="QLabel" name="lbl_colorBas">
                   <property name="text">
-                   <string>Face du bas : </string>
+                   <string>Face bas : </string>
                   </property>
                   <property name="buddy">
                    <cstring>colorBas</cstring>
@@ -262,6 +262,9 @@
                 <property name="horizontalSpacing">
                  <number>20</number>
                 </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="lbl_nbIteration_3D">
                   <property name="text">
@@ -282,33 +285,20 @@
                   </property>
                  </widget>
                 </item>
-                <item row="4" column="0">
-                 <widget class="QLabel" name="lbl_zoom_3D">
-                  <property name="text">
-                   <string>Zoom :</string>
+                <item row="2" column="0">
+                 <spacer name="vspacer_center_top_reglages_3D">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
                   </property>
-                  <property name="buddy">
-                   <cstring>zoom_3D</cstring>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
                   </property>
-                 </widget>
+                 </spacer>
                 </item>
-                <item row="4" column="1">
-                 <widget class="QDoubleSpinBox" name="zoom_3D">
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                  <property name="maximum">
-                   <double>1000000000.000000000000000</double>
-                  </property>
-                  <property name="singleStep">
-                   <double>2.000000000000000</double>
-                  </property>
-                  <property name="value">
-                   <double>70.000000000000000</double>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0" colspan="2">
+                <item row="3" column="0" colspan="2">
                  <widget class="QGroupBox" name="group_3D_rotation">
                   <property name="title">
                    <string>Rotation</string>
@@ -322,6 +312,9 @@
                    </property>
                    <property name="horizontalSpacing">
                     <number>20</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
                    </property>
                    <item row="0" column="0">
                     <widget class="QLabel" name="lbl_rotateX">
@@ -407,20 +400,7 @@
                   </layout>
                  </widget>
                 </item>
-                <item row="1" column="0">
-                 <spacer name="vspacer_center_top_reglages_3D">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item row="3" column="0">
+                <item row="4" column="0">
                  <spacer name="vspacer_center_bottom_reglages_3D">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
@@ -432,6 +412,32 @@
                    </size>
                   </property>
                  </spacer>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="lbl_zoom_3D">
+                  <property name="text">
+                   <string>Zoom :</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>zoom_3D</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QDoubleSpinBox" name="zoom_3D">
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                  <property name="maximum">
+                   <double>1000000000.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>2.000000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>70.000000000000000</double>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </widget>
@@ -501,7 +507,7 @@
                    </palette>
                   </property>
                   <property name="text">
-                   <string>Quantité de Rouge :</string>
+                   <string>Rouge :</string>
                   </property>
                   <property name="buddy">
                    <cstring>qteRouge</cstring>
@@ -555,7 +561,7 @@
                    </palette>
                   </property>
                   <property name="text">
-                   <string>Quantité de Vert :</string>
+                   <string>Vert :</string>
                   </property>
                   <property name="buddy">
                    <cstring>qteVert</cstring>
@@ -609,7 +615,7 @@
                    </palette>
                   </property>
                   <property name="text">
-                   <string>Quantité de Bleu :</string>
+                   <string>Bleu :</string>
                   </property>
                   <property name="buddy">
                    <cstring>qteBleu</cstring>
@@ -629,7 +635,7 @@
              <item>
               <widget class="QGroupBox" name="group_2D_reglages">
                <property name="title">
-                <string>Réglages de le fractale</string>
+                <string>Réglages de la fractale</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -822,10 +828,7 @@
   <tabstop>rotateX</tabstop>
   <tabstop>rotateY</tabstop>
   <tabstop>rotateZ</tabstop>
-  <tabstop>zoom_3D</tabstop>
   <tabstop>bt_generer</tabstop>
-  <tabstop>generer3D</tabstop>
-  <tabstop>scrollArea_3</tabstop>
  </tabstops>
  <resources>
   <include location="../Images.qrc"/>
