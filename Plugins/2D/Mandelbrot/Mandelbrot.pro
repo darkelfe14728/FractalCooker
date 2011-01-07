@@ -16,18 +16,18 @@ VER_PAT		=	0
 
 ################################################# Réglages utilisateur ##################################################
 win32 {
-	CONFIG	+=	debug
+    CONFIG	+=	debug
 
-	CONFIG(debug,debug|release):CONFIG += console
+    CONFIG(debug,debug|release):CONFIG += console
 }
 else {
-	CONFIG	+=	debug
+    CONFIG	+=	debug
 }
 
 ################################################## Suffixe automatique ##################################################
 PROJECT_SUFFIX	=
 CONFIG(debug, debug|release) {
-	PROJECT_SUFFIX	=	d
+    PROJECT_SUFFIX	=	d
 }
 
 ################################################## Paramètres globaux ###################################################
@@ -43,7 +43,7 @@ CONFIG			+=	warn_on silent plugin dll
 
 ####################################################### Nettoyage #######################################################
 win32:QMAKE_DISTCLEAN	+=	*_resource.rc \
-							object_script.*
+                            object_script.*
 
 ###################################################### Répertoires ######################################################
 RACINE		=	../../..
@@ -55,7 +55,7 @@ MOC_DIR		=	Temp/mocs$${PROJECT_SUFFIX}
 
 ##################################################### Configuration #####################################################
 INCLUDEPATH	+=	Data/Headers \
-				$${RACINE}/Interfaces
+                $${RACINE}/Interfaces
 DEPENDPATH	+=	Data/Sources
 
 CODECFORTR	=	UTF-8
@@ -63,5 +63,5 @@ CODECFORSRC	=	UTF-8
 
 ####################################################### Fichiers ########################################################
 HEADERS		+=	Data/Headers/*.h \
-				$${RACINE}/Interfaces/Fractal2D.h
+                $${RACINE}/Interfaces/Fractale2D.h
 SOURCES		+=	Data/Sources/*.cpp
