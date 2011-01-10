@@ -32,6 +32,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Fractale.h" />
 		<Unit filename="Fractale2D.h" />
 		<Unit filename="Fractale3D.h" />
 		<Extensions>

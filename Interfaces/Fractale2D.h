@@ -24,8 +24,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef HEADERGUARD_PROGRAM_FRACTALE2D_H
-#define HEADERGUARD_PROGRAM_FRACTALE2D_H
+#ifndef HEADERGUARD_INTERFACES_FRACTALE2D_H
+#define HEADERGUARD_INTERFACES_FRACTALE2D_H
 
     #include <QtCore/QMutex>
     #include <QtCore/QPoint>
@@ -180,3 +180,4 @@
     QT_END_HEADER
 
 #endif
+

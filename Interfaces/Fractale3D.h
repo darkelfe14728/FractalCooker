@@ -4,7 +4,7 @@
  * Projet					:	Program
  * Fichier					:	Fractale3D.h
  *
- * Date de modification		:	mercredi 24 février 2010
+ * Date de création			:	mercredi 24 février 2010
  */
 
 /* Copyright (C) 2010 LEVIGNE Florent, GROCCIA Patricia, RICHARD Thomas, ROSSET Julien
@@ -24,8 +24,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef HEADERGUARD_PROGRAM_FRACTALE3D_H
-#define HEADERGUARD_PROGRAM_FRACTALE3D_H
+#ifndef HEADERGUARD_INTERFACES_FRACTALE3D_H
+#define HEADERGUARD_INTERFACES_FRACTALE3D_H
 
 	#include <QtCore/QList>
 	#include <QtCore/QMutex>
@@ -170,3 +170,4 @@
     QT_END_HEADER
 
 #endif
+
