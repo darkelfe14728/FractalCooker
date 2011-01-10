@@ -104,7 +104,15 @@
             void progression (int fait);
 
         protected:
+			/**
+			 *	Est-ce que la génération doit-être annulée ?
+			 *
+			 *	\sa cancel et resetCancel.
+			 */
             bool	m_cancel;
+            /**
+             *	Mutex protégeant la variable m_cancel.
+             */
             QMutex	m_mutex_cancel;
 
 		protected slots:
