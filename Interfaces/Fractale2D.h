@@ -42,7 +42,7 @@
 
 	/**
 	 *	Interface générique à toutes les fractales 2D. \n
-	 *	Chaques plugins de fractales 2D <u>doit</u> hériter de cette interface.
+	 *	Chaque plugins de fractales 2D <u>doit</u> hériter de cette interface.
 	 */
 	class Fractale2D :
 		public Fractale {
@@ -69,8 +69,9 @@
 				m_centre = centre;
 				m_zoom = zoom;
 				m_nbIterations = nbIterations;
-				m_cancel = false;
 				m_symetric = false;
+
+				clearCancel();
 
 				m_image = QImage(drawZone.size(), QImage::Format_RGB32);
 			}
@@ -209,7 +210,7 @@
 			QImage m_image;
 	};
 
-	Q_DECLARE_INTERFACE(Fractale2D, "fractales.aspe.fractale2D/1.5.0")
+	Q_DECLARE_INTERFACE(Fractale2D, "fractales.aspe.fractale2D/1.6.0")
 
 	QT_END_HEADER
 

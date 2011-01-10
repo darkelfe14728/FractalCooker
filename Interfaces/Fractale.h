@@ -105,6 +105,31 @@
 
         protected:
 			/**
+			 *	\return Vrai si la génération doit être annulée<br/>
+			 *			Faux sinon.
+			 */
+			bool isCancel () {
+				bool escape = true;
+
+				m_mutex.lock();
+                escape = m_cancel;
+                m_mutex.unlock();
+
+                return escape;
+			}
+
+        protected slots:
+			/**
+			 *	Remet à zéro la variable d'annulation.
+			 */
+			inline void resetCancel () {
+                m_mutex_cancel.lock();
+                m_cancel = false;
+                m_mutex_cancel.unlock();
+            }
+
+		private:
+			/**
 			 *	Est-ce que la génération doit-être annulée ?
 			 *
 			 *	\sa cancel et resetCancel.
@@ -114,16 +139,6 @@
              *	Mutex protégeant la variable m_cancel.
              */
             QMutex	m_mutex_cancel;
-
-		protected slots:
-			/**
-			 *	Remet à zéro la variable d'annulation.
-			 */
-			inline void resetCancel () {
-                m_mutex_cancel.lock();
-                m_cancel = false;
-                m_mutex_cancel.unlock();
-            }
     };
 
 	// Il ne s'agit pas réellement d'une interface pour plugin.
