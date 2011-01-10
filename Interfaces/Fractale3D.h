@@ -104,6 +104,13 @@
 				m_cancel = false;
             }
 
+			/**
+			 *	Crée les options du plugin.
+			 *
+			 *	\param[in]	parent	Le widget parent des options.
+			 */
+			virtual void createOptions (QWidget * parent) = 0;
+
 			virtual void generer () = 0;
 			virtual QString name () const = 0;
 

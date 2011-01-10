@@ -4,7 +4,7 @@
  * Projet					:	Program
  * Fichier					:	Fractale2D.h
  *
- * Date de modification		:	mercredi 24 février 2010
+ * Date de création			:	mercredi 24 février 2010
  */
 
 /* Copyright (C) 2010 LEVIGNE Florent, GROCCIA Patricia, RICHARD Thomas, ROSSET Julien
@@ -64,6 +64,13 @@
 
                 m_image = QImage(drawZone.size(), QImage::Format_RGB32);
             }
+
+			/**
+			 *	Crée les options du plugin.
+			 *
+			 *	\param[in]	parent	Le widget parent des options.
+			 */
+			virtual void createOptions (QWidget * parent) = 0;
 
             virtual void generer () = 0;
             virtual QString name () const = 0;
