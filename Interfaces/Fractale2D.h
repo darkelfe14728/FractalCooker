@@ -71,7 +71,7 @@
 				m_nbIterations = nbIterations;
 				m_symetric = false;
 
-				clearCancel();
+				resetCancel();
 
 				m_image = QImage(drawZone.size(), QImage::Format_RGB32);
 			}

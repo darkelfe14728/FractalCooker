@@ -79,7 +79,7 @@
 							/**
 							 *	Création d'un point : coordonées (0, 0, 0).
 							 */
-							Point3D () : x(0.0), y(0.0), z(0.0) {}
+							SommetType () : x(0.0), y(0.0), z(0.0) {}
 
 							/**
 							 *	Alias pour le type d'une coordonnée.
@@ -138,7 +138,7 @@
 				/**
 				 *	Réprésente une liste de faces (sans doublons).
 				 */
-				Q_DECLARE_FLAGS(Faces, FaceFlags);
+				Q_DECLARE_FLAGS(Faces, FaceFlag);
 
 				/**
 				 *	Crée un cube de taille nulle (tous les sommets au même endroit, aucune face cachée).
@@ -174,7 +174,7 @@
 			 */
             void init (const quint32 & nbIteration) {
 				m_nbIterations = nbIteration;
-				clearCancel();
+				resetCancel();
             }
 
 			/**
