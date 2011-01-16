@@ -41,6 +41,7 @@ MainWindow::MainWindow (QWidget * parent/* = 0*/,
 
     connect(m_ui.action_Fichier_Quitter, SIGNAL(triggered()), this, SLOT(close()));
     connect(m_ui.action_Aide_AboutPlugins, SIGNAL(triggered()), this, SLOT(aboutPlugins()));
+    connect(m_ui.action_Aide_AboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
     m_ui.page_fractales_3D->hide();
 
@@ -150,7 +151,7 @@ void MainWindow::loadPlugin (QAction * action) {
 }
 
 
-void MainWindow::on_action_About_triggered ()
+void MainWindow::on_action_Aide_About_triggered ()
 {
     QDialog dialog;
 

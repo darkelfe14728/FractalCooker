@@ -27,47 +27,47 @@
 #ifndef HEADERGUARD_PROGRAM_MAINWINDOW_H
 #define HEADERGUARD_PROGRAM_MAINWINDOW_H
 
-	#include "Fractale2D.h"
-	#include "Fractale3D.h"
+    #include "Fractale2D.h"
+    #include "Fractale3D.h"
 
-	#include "ui_MainWindow.h"
+    #include "ui_MainWindow.h"
 
-	#include <QtCore/QDir>
-	#include <QtCore/QStringList>
+    #include <QtCore/QDir>
+    #include <QtCore/QStringList>
 
-	#include <QtGui/QMainWindow>
+    #include <QtGui/QMainWindow>
 
-	QT_BEGIN_HEADER
+    QT_BEGIN_HEADER
 
-	class MainWindow :
-		public QMainWindow {
+    class MainWindow :
+        public QMainWindow {
 
-		Q_OBJECT
+        Q_OBJECT
 
-		public:
-			MainWindow (QWidget * parent = 0, Qt::WindowFlags flags = 0);
+        public:
+            MainWindow (QWidget * parent = 0, Qt::WindowFlags flags = 0);
 
-		public slots:
-			void findPlugins ();
-			void aboutPlugins ();
+        public slots:
+            void findPlugins ();
+            void aboutPlugins ();
 
-		private:
-			Ui::MainWindow m_ui;
-			QActionGroup * m_pluginGroup;
+        private:
+            Ui::MainWindow m_ui;
+            QActionGroup * m_pluginGroup;
 
-			QDir m_pluginPath;
-			QStringList m_pluginFiles;
+            QDir m_pluginPath;
+            QStringList m_pluginFiles;
 
-		private:
-			void initPluginDirPath ();
-			void addToMenu (QObject * plugin, const QString & path);
+        private:
+            void initPluginDirPath ();
+            void addToMenu (QObject * plugin, const QString & path);
 
-		private slots:
-			void loadPlugin (QAction * action);
+        private slots:
+            void loadPlugin (QAction * action);
 
-			void on_action_About_triggered ();
-	};
+            void on_action_Aide_About_triggered ();
+    };
 
-	QT_END_HEADER
+    QT_END_HEADER
 
 #endif
