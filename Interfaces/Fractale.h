@@ -27,6 +27,7 @@
 #ifndef HEADERGUARD_INTERFACES_FRACTALE_H
 #define HEADERGUARD_INTERFACES_FRACTALE_H
 
+    #include <QtCore/QObject>
     #include <QtCore/QMutex>
     #include <QtCore/QString>
 
@@ -111,9 +112,9 @@
 			bool isCancel () {
 				bool escape = true;
 
-				m_mutex.lock();
+				m_mutex_cancel.lock();
                 escape = m_cancel;
-                m_mutex.unlock();
+                m_mutex_cancel.unlock();
 
                 return escape;
 			}

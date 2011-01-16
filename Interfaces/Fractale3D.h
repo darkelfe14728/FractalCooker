@@ -174,7 +174,7 @@
 			 */
             void init (const quint32 & nbIteration) {
 				m_nbIterations = nbIteration;
-				clearCancel();
+				resetCancel();
             }
 
 			/**
