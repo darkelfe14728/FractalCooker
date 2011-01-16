@@ -60,13 +60,13 @@ void Mandelbrot::generer()
     qreal  debut,
            fin;
     QRectF bornes(m_centre.x() + (m_drawZone.x() - 0.5 * m_drawZone.width()) / m_zoom,
-				  m_centre.y() + (m_drawZone.y() - 0.5 * m_drawZone.height()) / m_zoom,
-				  m_drawZone.width() / m_zoom,
-				  m_drawZone.height() / m_zoom);
+                  m_centre.y() + (m_drawZone.y() - 0.5 * m_drawZone.height()) / m_zoom,
+                  m_drawZone.width() / m_zoom,
+                  m_drawZone.height() / m_zoom);
     QPoint pointToAdd;
     bool escape;
 
-    uncancel();
+    resetCancel();
 
     // Pour déterminer où se trouve la plus grande partie de la fractale par rapport à l'axe des réel
     if (abs(bornes.top()) < abs(bornes.bottom()))
@@ -111,9 +111,7 @@ void Mandelbrot::generer()
 //printf("after addPoint()\n");
             emit progression(i + m_drawZone.width() * j);
 //printf("after emit progression()\n");
-            m_mutex.lock();
-            escape = m_cancel;
-            m_mutex.unlock();
+            escape = isCancel();
 
             if(escape)
                 return;

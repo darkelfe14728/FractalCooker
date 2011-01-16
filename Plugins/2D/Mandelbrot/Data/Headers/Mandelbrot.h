@@ -42,18 +42,25 @@
 
         public:
             /**
-             * Fonction qui donne le nom de la fractale.
-             * @return "Mandelbrot"
+             *	Crée les options du plugin.
+             *
+             *	\param[in]	parent	Le widget parent des options.
              */
-            inline QString name() const {
-                return QString("Mandelbrot");
-            }
+            void createOptions (QWidget * parent);
 
             /**
              * Procédure qui génère l'image de la fractale de mandelbrot.
              * @see calculerPixel(const QPoint&)
              */
             void generer();
+
+            /**
+             * Fonction qui donne le nom de la fractale.
+             * @return "Mandelbrot"
+             */
+            inline QString name() const {
+                return QString("Mandelbrot");
+            }
 
         protected:
             /**
