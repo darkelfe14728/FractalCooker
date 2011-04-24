@@ -38,7 +38,10 @@
 		<Unit filename="Licence.txt" />
 		<Unit filename="Licence_Qt.txt" />
 		<Extensions>
-			<code_completion />
+			<code_completion>
+				<search_path add="$(#qt4.include)" />
+				<search_path add="../../../Interfaces" />
+			</code_completion>
 			<debugger />
 			<envvars />
 		</Extensions>

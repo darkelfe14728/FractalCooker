@@ -27,8 +27,14 @@
 #ifndef HEADERGUARD_EPONGEMENGER_EPONGEMENGER_H
 #define HEADERGUARD_EPONGEMENGER_EPONGEMENGER_H
 
+	#include <cmath>
+
 	#include <QtPlugin>
     #include <Fractale3D.h>
+
+    #include <QtCore/QVector>
+
+	#include <QtGui/QMatrix4x4>
 
 	class EpongeMenger :
 		public Fractale3D {
@@ -37,17 +43,52 @@
 		Q_INTERFACES(Fractale3D)
 
 		public:
+			EpongeMenger ();
+
+			void init (QGLShaderProgram * shaders, int modelView_loc, int color_loc, int nbIteration);
+
+			inline void createOptions (QWidget *) {}		// Pas géré pour le moment
+
 			inline QString name () const {
 				return QString("Eponge de Menger");
 			}
 
-			void generer ();
+			inline int maximum () const {
+				return pow(20, nbIterations());
+			}
+
+			const QVector<GLFloat> getVertices () const;
+
+			const int zoom () const {
+				return 70;
+			}
+			const int near () const {
+				return 1;
+			}
+			const int far () const {
+				return 1000;
+			}
+
+			void paint ();
+
+			inline int getModelViewLocation () const {
+				return m_modelViewLocation;
+			}
+			inline int getColorLocation () const {
+				return m_colorLocation;
+			}
 
 		private:
-			void diviser (const Cube & original, CubeList & final);
+			void paintCube (const QMatrix4x4 & modelView);
+			void paintIteration (QMatrix4x4 & modelView, const quint8 level);
+			void paintIterationLayer (QMatrix4x4 & modelView, const quint8 level);
 
 		private:
-			int m_current;
+			int m_currentProgress;
+
+			QGLShaderProgram * m_shaders;
+			int m_modelViewLocation;
+			int m_colorLocation;
 	};
 
 #endif
