@@ -58,12 +58,6 @@
 			virtual void createOptions (QWidget * parent) = 0;
 
 			/**
-			 *	Lance la génération de la fractale.
-			 *
-			 *	\sa cancel.
-			 */
-            virtual void generer () = 0;
-            /**
              *	\return Le nom de la fractale.
              */
             virtual QString name () const = 0;
@@ -72,12 +66,12 @@
             //virtual const XXX & resultat () const = 0;
 
             // Déclarer ici ?
-            /*inline quint32 nbIterations () const {
+            inline quint32 nbIterations () const {
                 return m_nbIterations;
-            }*/
-            /*inline void setNbIterations (const quint32 & nNbIteration) {
+            }
+            inline void setNbIterations (const quint32 & nNbIteration) {
                 m_nbIterations = nNbIteration;
-            }*/
+            }
 
 		public slots:
 			/**
@@ -93,12 +87,6 @@
 
         signals:
 			/**
-			 *	Transmet la valeur maximale pour la progression (c'est-à-dire la valeur correspondante à 100 %).
-			 *
-			 *	\param[in]	max		La valeur à transmettre.
-			 */
-            void maximum (int max);
-            /**
              *	Transmet la valeur de la progression.
              *	Doit être inférieur ou égal à la valeur transmise par maximum.
              */
@@ -140,6 +128,11 @@
              *	Mutex protégeant la variable m_cancel.
              */
             QMutex	m_mutex_cancel;
+
+			/**
+			 *	Le nombre d'itération (profondeur du calcul).
+			 */
+			quint32	m_nbIterations;
     };
 
 	// Il ne s'agit pas réellement d'une interface pour plugin.

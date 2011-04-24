@@ -77,6 +77,13 @@
 			}
 
 			/**
+			 *	Lance la génération de la fractale.
+			 *
+			 *	\sa cancel.
+			 */
+            virtual void generer () = 0;
+
+			/**
 			 *	\return Le résultat de la génération, c'est-à-dire la fractale.
 			 */
 			inline const QImage & resultat () const {
@@ -162,6 +169,14 @@
 				m_centre.ry() += decalage.y() / m_zoom;
 			}
 
+		signals:
+			/*!
+			 *	Transmet la valeur maximale pour la progression (c'est-à-dire la valeur correspondante à 100 %).
+			 *
+			 *	\param[in]	max		La valeur à transmettre.
+			 */
+            void maximum (int max);
+
 		protected:
 			/**
 			 *	Ajoute un point à l'image finale.
@@ -203,14 +218,13 @@
 			QRect   m_clipZone;
 			qreal	m_zoom;
 			QPointF	m_centre;
-			quint32	m_nbIterations;
 			bool	m_symetric;
 
 		private:
 			QImage m_image;
 	};
 
-	Q_DECLARE_INTERFACE(Fractale2D, "fractales.aspe.fractale2D/1.6.0")
+	Q_DECLARE_INTERFACE(Fractale2D, "fractalcooker.fractale2D/1.6.0")
 
 	QT_END_HEADER
 
