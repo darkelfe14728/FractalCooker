@@ -10,7 +10,7 @@
 
 ############################################## Informations sur le projet ###############################################
 PROJECT		=	EpongeMenger
-VER_MAJ		=	1
+VER_MAJ		=	2
 VER_MIN		=	0
 VER_PAT		=	0
 

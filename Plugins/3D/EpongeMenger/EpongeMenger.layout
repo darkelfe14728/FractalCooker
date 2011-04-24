@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="Data/Headers/EpongeMenger.h" open="0" top="0" tabpos="1">
-		<Cursor position="1461" topLine="0" />
+	<File name="Data/Headers/EpongeMenger.h" open="1" top="0" tabpos="1">
+		<Cursor position="1207" topLine="0" />
 	</File>
-	<File name="Data/Sources/EpongeMenger.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="1276" topLine="0" />
+	<File name="Data/Sources/EpongeMenger.cpp" open="1" top="1" tabpos="2">
+		<Cursor position="2576" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
