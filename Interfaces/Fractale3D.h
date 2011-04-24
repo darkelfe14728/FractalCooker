@@ -52,8 +52,8 @@
 			 *
 			 *	\param[in]	nbItération		Le nombre d'itération (la profondeur du calcul).
 			 */
-            void init (const quint32 & nbIteration) {
-				m_nbIterations = nbIteration;
+            void init (const quint32 nbIteration) {
+				setNbIterations(nbIterations);
 				resetCancel();
             }
 
@@ -71,8 +71,16 @@
 				m_forme.clear();
 			}
 
-		protected:
-			QGLShaderProgram m_program;
+			/*!
+			 *	Dessine, avec OpenGL, la fractale via \a program .
+			 *
+			 *	\param		program		Les shaders pour le dessin OpenGL.
+			 *
+			 *	\param[in]	camera		Position de la matrice caméra.
+			 *	\param[in]	draw		Position de la matrice de dessin.
+			 *	\param[in]	color		Position de la couleur de dessin.
+			 */
+			virtual void paint (QGLShaderProgram & program, const int camera, const int draw, const int color);
     };
 
     Q_DECLARE_INTERFACE(Fractale3D, "fractalcooker.fractale3D/2.0.0")

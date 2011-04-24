@@ -29,6 +29,7 @@
 
     #include <QtCore/QObject>
     #include <QtCore/QMutex>
+    #include <QtCore/QMutexLocker>
     #include <QtCore/QString>
 
     QT_BEGIN_HEADER
@@ -80,9 +81,8 @@
 			 *	\sa m_cancel.
 			 */
             inline void cancel () {
-                m_mutex_cancel.lock();
+                QMutexLocker locker(&m_mutex_cancel);
                 m_cancel = true;
-                m_mutex_cancel.unlock();
             }
 
         signals:
@@ -98,13 +98,8 @@
 			 *			Faux sinon.
 			 */
 			bool isCancel () {
-				bool escape = true;
-
-				m_mutex_cancel.lock();
-                escape = m_cancel;
-                m_mutex_cancel.unlock();
-
-                return escape;
+				QMutexLocker locker(&m_mutex_cancel);
+                return m_cancel;
 			}
 
         protected slots:
@@ -112,9 +107,8 @@
 			 *	Remet à zéro la variable d'annulation.
 			 */
 			inline void resetCancel () {
-                m_mutex_cancel.lock();
+                QMutexLocker locker(&m_mutex_cancel);
                 m_cancel = false;
-                m_mutex_cancel.unlock();
             }
 
 		private:
