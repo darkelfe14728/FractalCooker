@@ -4,10 +4,10 @@
  * Projet					:	Program
  * Fichier					:	Fractale3D.h
  *
- * Date de modification		:	mercredi 24 février 2010
+ * Date de création			:	mercredi 24 février 2010
  */
 
-/* Copyright (C) 2010 LEVIGNE Florent, GROCCIA Patricia, RICHARD Thomas, ROSSET Julien
+/* Copyright (C) 2010-2011 LEVIGNE Florent, GROCCIA Patricia, RICHARD Thomas, ROSSET Julien
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,142 +24,60 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef HEADERGUARD_PROGRAM_FRACTALE3D_H
-#define HEADERGUARD_PROGRAM_FRACTALE3D_H
+#ifndef HEADERGUARD_INTERFACES_FRACTALE3D_H
+#define HEADERGUARD_INTERFACES_FRACTALE3D_H
 
-	#include <QtCore/QList>
-	#include <QtCore/QMutex>
-	#include <QtCore/QObject>
-	#include <QtCore/QString>
+	#include "Fractale.h"
 
-	#include <cstdio>
+	#include <QtOpenGL/QGLShaderProgram>
 
     QT_BEGIN_HEADER
 
+	/**
+	 *	Interface générique à toutes les fractales 3D. \n
+	 *	Chaque plugins de fractales 3D <u>doit</u> hériter de cette interface.
+	 *
+	 *	\warning Chaque plugin crée avec cette interface doit utiliser OpenGL. Pensez à modifier le projet en conséquence.
+	 */
     class Fractale3D :
-        public QObject {
+        public Fractale {
 
         Q_OBJECT
-
-		public:
-			struct Cube {
-				/*
-					   ___________
-					  /4        5/|
-					 /          / |
-					/__________/  |
-					|0        1|  |
-					|          |  |
-					|    7     | 6/
-					|          | /
-					|3________2|/
-
-				*/
-
-				struct Hauteur {
-					struct Largeur {
-						struct Point3D {
-							Point3D () : x(0.0), y(0.0), z(0.0) {}
-
-							float x;
-							float y;
-							float z;
-						};
-
-						Point3D gauche;
-						Point3D droite;
-					};
-
-					Largeur haut;
-					Largeur bas;
-				};
-				enum Face {
-					Aucune	    =   0b0000000,
-
-					Haut        =   0b0000001,
-					Bas         =   0b0000010,
-					Gauche      =   0b0000100,
-					Droite      =   0b0001000,
-					Avant       =   0b0010000,
-					Arriere     =   0b0100000,
-
-					Toutes      =   Haut | Bas | Gauche | Droite | Avant | Arriere
-				};
-				Q_DECLARE_FLAGS(Faces, Face);
-
-				Cube () : hiddenFaces(Aucune) {}
-
-				Hauteur avant;
-				Hauteur arriere;
-
-				Faces hiddenFaces;
-			};
-			typedef QList<Cube> CubeList;
 
         public:
             virtual ~Fractale3D () {}
 
+			/**
+			 *	Initialise le plugin.
+			 *
+			 *	\param[in]	nbItération		Le nombre d'itération (la profondeur du calcul).
+			 */
             void init (const quint32 & nbIteration) {
 				m_nbIterations = nbIteration;
-				m_cancel = false;
+				resetCancel();
             }
 
-			virtual void generer () = 0;
-			virtual QString name () const = 0;
+			/*!
+			 *	\return la valeur maximale pour la progression (c'est-à-dire la valeur correspondante à 100 %).
+			 */
+			int maximum () const;
 
+			/**
+			 *	Nettoie la fractale.
+			 *
+			 *	\note A placer dans la classe mère ?
+			 */
 			virtual void clear () {
 				m_forme.clear();
 			}
 
-			inline const CubeList & resultat () const {
-				return m_forme;
-			}
-
-            inline quint32 nbIterations () const {
-                return m_nbIterations;
-            }
-            inline void setNbIterations (const quint32 & nNbIteration) {
-                m_nbIterations = nNbIteration;
-            }
-
-		public slots:
-            inline void cancel () {
-            	m_mutex.lock();
-                m_cancel = true;
-                m_mutex.unlock();
-            }
-
-		signals:
-			void maximum (int max);
-			void progression (int val);
-
 		protected:
-			quint32		m_nbIterations;
-            CubeList	m_forme;
-
-		protected:
-			inline void uncancel () {
-				m_mutex.lock();
-                m_cancel = false;
-                m_mutex.unlock();
-			}
-			bool isCancel () {
-				bool escape = true;
-
-				m_mutex.lock();
-                escape = m_cancel;
-                m_mutex.unlock();
-
-                return escape;
-			}
-
-		private:
-			bool	m_cancel;
-            QMutex	m_mutex;
+			QGLShaderProgram m_program;
     };
 
-    Q_DECLARE_INTERFACE(Fractale3D, "fractales.aspe.fractale3D/1.0.0")
+    Q_DECLARE_INTERFACE(Fractale3D, "fractalcooker.fractale3D/2.0.0")
 
     QT_END_HEADER
 
 #endif
+
