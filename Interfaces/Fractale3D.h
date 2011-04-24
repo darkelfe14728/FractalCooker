@@ -47,7 +47,7 @@
         public:
             virtual ~Fractale3D () {}
 
-			/**
+			/*!
 			 *	Initialise le plugin.
 			 *
 			 *	\param[in]	nbItération		Le nombre d'itération (la profondeur du calcul).
@@ -60,16 +60,7 @@
 			/*!
 			 *	\return la valeur maximale pour la progression (c'est-à-dire la valeur correspondante à 100 %).
 			 */
-			int maximum () const;
-
-			/**
-			 *	Nettoie la fractale.
-			 *
-			 *	\note A placer dans la classe mère ?
-			 */
-			virtual void clear () {
-				m_forme.clear();
-			}
+			virtual int maximum () const = 0;
 
 			/*!
 			 *	Dessine, avec OpenGL, la fractale via \a program .
@@ -80,7 +71,7 @@
 			 *	\param[in]	draw		Position de la matrice de dessin.
 			 *	\param[in]	color		Position de la couleur de dessin.
 			 */
-			virtual void paint (QGLShaderProgram & program, const int camera, const int draw, const int color);
+			virtual void paint (QGLShaderProgram & program, const int camera, const int draw, const int color) = 0;
     };
 
     Q_DECLARE_INTERFACE(Fractale3D, "fractalcooker.fractale3D/2.0.0")
