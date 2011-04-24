@@ -29,15 +29,16 @@
 
 	#include "Fractale.h"
 
-	#include <QtOpenGL/QGLShaderProgram>
+	class QVector;
+	class QGLShaderProgram;
 
     QT_BEGIN_HEADER
 
-	/**
+	/*!
 	 *	Interface générique à toutes les fractales 3D. \n
 	 *	Chaque plugins de fractales 3D <u>doit</u> hériter de cette interface.
 	 *
-	 *	\warning Chaque plugin crée avec cette interface doit utiliser OpenGL. Pensez à modifier le projet en conséquence.
+	 *	\warning Chaque plugin crée avec cette interface doit utiliser OpenGL. Pensez à modifier votre projet en conséquence.
 	 */
     class Fractale3D :
         public Fractale {
@@ -45,33 +46,84 @@
         Q_OBJECT
 
         public:
+			Fractale3D () : m_shaders(0), m_location_calcul(-1), m_location_color(-1) {}
             virtual ~Fractale3D () {}
 
 			/*!
 			 *	Initialise le plugin.
 			 *
-			 *	\param[in]	nbItération		Le nombre d'itération (la profondeur du calcul).
+			 *	\param[in]	shaders			Pointeur vers le 'programme' de shaders. Sa construction et sa destuction sont à la charge de l'unité appelante.
+			 *	\param[in]	loc_modelView	Localisation de la matrice de calcul.
+			 *	\param[in]	loc_color		Localisation de la coloration.
+			 *	\param[in]	nbIteration		Le nombre d'itération (la profondeur du calcul).
 			 */
-            void init (const quint32 nbIteration) {
+            virtual void init (QGLShaderProgram * shaders, const int loc_calcul, const int loc_color, const quint32 nbIteration) {
+
+				m_shaders = shaders;		// Copie d'adresse, et pas de l'objet
+
+				m_location_calcul = loc_calcul;
+				m_location_color = loc_color;
+
 				setNbIterations(nbIterations);
 				resetCancel();
             }
 
 			/*!
+			 *	\return Un tableau constitué des différentes vertices (points) de la forme de base à dessiner. Trois valeur par vertices.
+			 */
+			virtual const QVector<GLFloat> getVertices () const = 0;
+
+			/*!
+			 *	\return Le facteur de zoom (70 par défaut).
+			 */
+			virtual const int zoom () const {
+				return 70;
+			}
+			/*!
+			 *	\return La limite proche de vision (1 par défaut).
+			 */
+			virtual const int nearDistance () const {
+				return 1;
+			}
+			/*!
+			 *	\return La limite lointaine de vision (1000 par défaut).
+			 */
+			virtual const int farDistance () const {
+				return 1000;
+			}
+
+			/*!
+			 *	Dessine la fractale (avec OpenGL).
+			 */
+			virtual void paint () = 0;
+
+			/*!
+			 *	\return La localisation (dans les shaders) de la matrice de calcul.
+			 */
+			inline const int getCalculLocation () const {
+				return m_location_calcul;
+			}
+			/*!
+			 *	\return La localisation (dans les shaders) de la variable de couleur.
+			 */
+			inline const int getColorLocation () const {
+				return m_location_color;
+			}
+
+		public:
+			/*!
 			 *	\return la valeur maximale pour la progression (c'est-à-dire la valeur correspondante à 100 %).
+			 *
+			 *	\sa progression.
 			 */
 			virtual int maximum () const = 0;
 
-			/*!
-			 *	Dessine, avec OpenGL, la fractale via \a program .
-			 *
-			 *	\param		program		Les shaders pour le dessin OpenGL.
-			 *
-			 *	\param[in]	camera		Position de la matrice caméra.
-			 *	\param[in]	draw		Position de la matrice de dessin.
-			 *	\param[in]	color		Position de la couleur de dessin.
-			 */
-			virtual void paint (QGLShaderProgram & program, const int camera, const int draw, const int color) = 0;
+		private:
+			QGLShaderProgram * m_shaders;
+
+			int m_location_calcul;
+			int m_location_color;
+
     };
 
     Q_DECLARE_INTERFACE(Fractale3D, "fractalcooker.fractale3D/2.0.0")
