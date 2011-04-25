@@ -70,7 +70,7 @@
             inline quint32 nbIterations () const {
                 return m_nbIterations;
             }
-            inline void setNbIterations (const quint32 & nNbIteration) {
+            inline void setNbIterations (const quint32 nNbIteration) {
                 m_nbIterations = nNbIteration;
             }
 
