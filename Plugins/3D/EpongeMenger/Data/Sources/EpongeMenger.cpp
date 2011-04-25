@@ -27,20 +27,9 @@
 #include "EpongeMenger.h"
 
 EpongeMenger::EpongeMenger () :
-	m_currentProgress(0),
-	m_shaders(0),
-	m_modelViewLocation(-1),
-	m_colorLocation(-1)
+	Fractale3D(),
+	m_currentProgress(0)
 {}
-
-void EpongeMenger::init (QGLShaderProgram * shaders, int modelView_loc, int color_loc, int nbIte) {
-
-	m_shaders = shaders;
-	m_modelViewLocation = modelView_loc;
-	m_colorLocation = color_loc;
-
-	setNbIterations(nbIte);
-}
 
 
 const QVector<GLFloat> EpongeMenger::getVertices () const {
@@ -88,7 +77,7 @@ void EpongeMenger::paint () {
 	QMatrix4x4 modelView;
 	modelView.lookAt(Vector(50, 50, 50), Vector(0, 0, 0), Vector(0, 1, 0));
 
-	m_currentProgress = 0;							// Réinitialise le compteur de progression
+	m_currentProgress = 0;									// Réinitialise le compteur de progression
 	paintIteration(modelView, nbIterations());
 }
 
@@ -112,7 +101,7 @@ void EpongeMenger::paintCube (const QMatrix4x4 & modelView) {
 						magenta(Qt::magenta);
 
 	// Mise en place de la "vue" pour le cube actuel
-	m_shaders->setUniformValue(getModelViewLocation(), modelView);
+	m_shaders->setUniformValue(getCalculLocation(), modelView);
 
 	// Dessin du cube
 		// Face 1
@@ -139,7 +128,7 @@ void EpongeMenger::paintCube (const QMatrix4x4 & modelView) {
 	m_shaders->setUniformValue(color, magenta);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, &(indices[30]));
 
-	emit progression(++m_currentProgress);
+	emit progression(++m_currentProgress);									// Une étape de progression par cube
 }
 
 void EpongeMenger::paintIteration (	QMatrix4x4 & modelView,
@@ -215,5 +204,9 @@ void EpongeMenger::paintIterationLayer (QMatrix4x4 & modelView,
 	modelView.translate(-2 * offset, 0, 0);
 	paintIteration(modelView, level - 1);
 }
+
+
+
+#include <QtPlugin>
 
 Q_EXPORT_PLUGIN2(EpongeMenger, EpongeMenger)

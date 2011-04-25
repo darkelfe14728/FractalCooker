@@ -27,14 +27,11 @@
 #ifndef HEADERGUARD_EPONGEMENGER_EPONGEMENGER_H
 #define HEADERGUARD_EPONGEMENGER_EPONGEMENGER_H
 
-	#include <cmath>
-
-	#include <QtPlugin>
     #include <Fractale3D.h>
 
-    #include <QtCore/QVector>
+	#include <cmath>
 
-	#include <QtGui/QMatrix4x4>
+	class QMatrix4x4;
 
 	class EpongeMenger :
 		public Fractale3D {
@@ -44,8 +41,6 @@
 
 		public:
 			EpongeMenger ();
-
-			void init (QGLShaderProgram * shaders, int modelView_loc, int color_loc, int nbIteration);
 
 			inline void createOptions (QWidget *) {}		// Pas géré pour le moment
 
@@ -59,36 +54,41 @@
 
 			const QVector<GLFloat> getVertices () const;
 
-			const int zoom () const {
-				return 70;
-			}
-			const int near () const {
-				return 1;
-			}
-			const int far () const {
-				return 1000;
-			}
-
 			void paint ();
 
-			inline int getModelViewLocation () const {
-				return m_modelViewLocation;
-			}
-			inline int getColorLocation () const {
-				return m_colorLocation;
-			}
-
 		private:
+			/*!
+			 *	Dessine un cube.
+			 *
+			 *	\param[in]	modelView		Matrice pour le placement du cube.
+			 */
 			void paintCube (const QMatrix4x4 & modelView);
+			/*!
+			 *	Dessine une itération de la fractale.
+			 *
+			 *	Level = 0 dessine un cube.
+			 *
+			 *	\param[in]	modelView		Matrice pour le placement des cubes.
+			 *	\param[in]	level			Niveau de l'itération.
+			 */
 			void paintIteration (QMatrix4x4 & modelView, const quint8 level);
+			/*!
+			 *	Dessine une "face" d'un itération.
+			 *
+			 *	\param[in]	modelView		Matrice pour le placement des cubes.
+			 *	\param[in]	level			Niveau de l'itération.
+			 */
 			void paintIterationLayer (QMatrix4x4 & modelView, const quint8 level);
 
 		private:
+			/*!
+			 *	Compteur pour la progression.
+			 *
+			 *	0 <= valeur <= maximum()
+			 *
+			 *	\sa maximum, progression.
+			 */
 			int m_currentProgress;
-
-			QGLShaderProgram * m_shaders;
-			int m_modelViewLocation;
-			int m_colorLocation;
 	};
 
 #endif
