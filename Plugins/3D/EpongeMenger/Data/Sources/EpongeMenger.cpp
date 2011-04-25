@@ -32,9 +32,8 @@ EpongeMenger::EpongeMenger () :
 {}
 
 
-const QVector<GLFloat> EpongeMenger::getVertices () const {
-
-	QVector<GLFloat> vertices(24);				// Cube : 8 points de 3 coordonnées
+const QVector<GLfloat> EpongeMenger::getVertices () const  {
+	QVector<GLfloat> vertices;				// Cube : 8 points de 3 coordonnées
 
 	vertices[0] = -1;
 	vertices[1] = -1;
@@ -75,7 +74,7 @@ const QVector<GLFloat> EpongeMenger::getVertices () const {
 void EpongeMenger::paint () {
 
 	QMatrix4x4 modelView;
-	modelView.lookAt(Vector(50, 50, 50), Vector(0, 0, 0), Vector(0, 1, 0));
+	modelView.lookAt(QVector3D(50, 50, 50), QVector3D(0, 0, 0), QVector3D(0, 1, 0));
 
 	m_currentProgress = 0;									// Réinitialise le compteur de progression
 	paintIteration(modelView, nbIterations());
@@ -101,31 +100,31 @@ void EpongeMenger::paintCube (const QMatrix4x4 & modelView) {
 						magenta(Qt::magenta);
 
 	// Mise en place de la "vue" pour le cube actuel
-	m_shaders->setUniformValue(getCalculLocation(), modelView);
+	shaders()->setUniformValue(getCalculLocation(), modelView);
 
 	// Dessin du cube
 		// Face 1
-	m_shaders->setUniformValue(getColorLocation(), rouge);					// Change la couleur du "pinceau" pour la face actuelle
+	shaders()->setUniformValue(getColorLocation(), rouge);					// Change la couleur du "pinceau" pour la face actuelle
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, &(indices[0]));		// Dessine deux triangles successifs pour la face, en se basant sur les indices spécifiés
 
 		// Face 2
-	m_shaders->setUniformValue(color, jaune);
+	shaders()->setUniformValue(getColorLocation(), jaune);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, &(indices[6]));
 
 		// Face 3
-	m_shaders->setUniformValue(color, blanc);
+	shaders()->setUniformValue(getColorLocation(), blanc);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, &(indices[12]));
 
 		// Face 4
-	m_shaders->setUniformValue(color, cyan);
+	shaders()->setUniformValue(getColorLocation(), cyan);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, &(indices[18]));
 
 		// Face 5
-	m_shaders->setUniformValue(color, bleu);
+	shaders()->setUniformValue(getColorLocation(), bleu);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, &(indices[24]));
 
 		// Face 6
-	m_shaders->setUniformValue(color, magenta);
+	shaders()->setUniformValue(getColorLocation(), magenta);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, &(indices[30]));
 
 	emit progression(++m_currentProgress);									// Une étape de progression par cube

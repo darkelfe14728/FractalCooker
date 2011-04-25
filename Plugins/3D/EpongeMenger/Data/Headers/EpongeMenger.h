@@ -52,7 +52,7 @@
 				return pow(20, nbIterations());
 			}
 
-			const QVector<GLFloat> getVertices () const;
+			const QVector<GLfloat> getVertices () const;
 
 			void paint ();
 
