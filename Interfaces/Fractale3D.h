@@ -29,8 +29,8 @@
 
 	#include "Fractale.h"
 
-	class QVector;
-	class QGLShaderProgram;
+	#include <QtCore/QVector>
+	#include <QtOpenGL/QGLShaderProgram>
 
     QT_BEGIN_HEADER
 
@@ -64,31 +64,31 @@
 				m_location_calcul = loc_calcul;
 				m_location_color = loc_color;
 
-				setNbIterations(nbIterations);
+				setNbIterations(nbIteration);
 				resetCancel();
             }
 
 			/*!
 			 *	\return Un tableau constitué des différentes vertices (points) de la forme de base à dessiner. Trois valeur par vertices.
 			 */
-			virtual const QVector<GLFloat> getVertices () const = 0;
+			virtual const QVector<GLfloat> getVertices () const = 0;
 
 			/*!
 			 *	\return Le facteur de zoom (70 par défaut).
 			 */
-			virtual const int zoom () const {
+			virtual int zoom () const {
 				return 70;
 			}
 			/*!
 			 *	\return La limite proche de vision (1 par défaut).
 			 */
-			virtual const int nearDistance () const {
+			virtual int nearDistance () const {
 				return 1;
 			}
 			/*!
 			 *	\return La limite lointaine de vision (1000 par défaut).
 			 */
-			virtual const int farDistance () const {
+			virtual int farDistance () const {
 				return 1000;
 			}
 
@@ -100,14 +100,18 @@
 			/*!
 			 *	\return La localisation (dans les shaders) de la matrice de calcul.
 			 */
-			inline const int getCalculLocation () const {
+			inline int getCalculLocation () const {
 				return m_location_calcul;
 			}
 			/*!
 			 *	\return La localisation (dans les shaders) de la variable de couleur.
 			 */
-			inline const int getColorLocation () const {
+			inline int getColorLocation () const {
 				return m_location_color;
+			}
+			
+			inline QGLShaderProgram * shaders () {
+				return m_shaders;
 			}
 
 		public:
