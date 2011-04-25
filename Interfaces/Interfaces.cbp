@@ -37,7 +37,9 @@
 		<Unit filename="Fractale3D.h" />
 		<Extensions>
 			<envvars />
-			<code_completion />
+			<code_completion>
+				<search_path add="$(#qt4.include)" />
+			</code_completion>
 			<debugger />
 			<lib_finder disable_auto="1" />
 		</Extensions>

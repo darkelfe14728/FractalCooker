@@ -29,6 +29,7 @@
 
     #include <QtCore/QObject>
     #include <QtCore/QMutex>
+    #include <QtCore/QMutexLocker>
     #include <QtCore/QString>
 
     QT_BEGIN_HEADER
@@ -58,12 +59,6 @@
 			virtual void createOptions (QWidget * parent) = 0;
 
 			/**
-			 *	Lance la génération de la fractale.
-			 *
-			 *	\sa cancel.
-			 */
-            virtual void generer () = 0;
-            /**
              *	\return Le nom de la fractale.
              */
             virtual QString name () const = 0;
@@ -72,12 +67,12 @@
             //virtual const XXX & resultat () const = 0;
 
             // Déclarer ici ?
-            /*inline quint32 nbIterations () const {
+            inline quint32 nbIterations () const {
                 return m_nbIterations;
-            }*/
-            /*inline void setNbIterations (const quint32 & nNbIteration) {
+            }
+            inline void setNbIterations (const quint32 nNbIteration) {
                 m_nbIterations = nNbIteration;
-            }*/
+            }
 
 		public slots:
 			/**
@@ -86,19 +81,12 @@
 			 *	\sa m_cancel.
 			 */
             inline void cancel () {
-                m_mutex_cancel.lock();
+                QMutexLocker locker(&m_mutex_cancel);
                 m_cancel = true;
-                m_mutex_cancel.unlock();
             }
 
         signals:
 			/**
-			 *	Transmet la valeur maximale pour la progression (c'est-à-dire la valeur correspondante à 100 %).
-			 *
-			 *	\param[in]	max		La valeur à transmettre.
-			 */
-            void maximum (int max);
-            /**
              *	Transmet la valeur de la progression.
              *	Doit être inférieur ou égal à la valeur transmise par maximum.
              */
@@ -110,13 +98,8 @@
 			 *			Faux sinon.
 			 */
 			bool isCancel () {
-				bool escape = true;
-
-				m_mutex_cancel.lock();
-                escape = m_cancel;
-                m_mutex_cancel.unlock();
-
-                return escape;
+				QMutexLocker locker(&m_mutex_cancel);
+                return m_cancel;
 			}
 
         protected slots:
@@ -124,9 +107,8 @@
 			 *	Remet à zéro la variable d'annulation.
 			 */
 			inline void resetCancel () {
-                m_mutex_cancel.lock();
+                QMutexLocker locker(&m_mutex_cancel);
                 m_cancel = false;
-                m_mutex_cancel.unlock();
             }
 
 		private:
@@ -140,6 +122,11 @@
              *	Mutex protégeant la variable m_cancel.
              */
             QMutex	m_mutex_cancel;
+
+			/**
+			 *	Le nombre d'itération (profondeur du calcul).
+			 */
+			quint32	m_nbIterations;
     };
 
 	// Il ne s'agit pas réellement d'une interface pour plugin.
