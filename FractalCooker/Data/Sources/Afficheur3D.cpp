@@ -38,6 +38,7 @@ Afficheur3D::Afficheur3D (	QWidget * parent,
     QGLWidget(parent, shareWidget, f),
     m_fractale(0),
     m_shaders(new QGLShaderProgram(this)),
+    m_initialized(false),
     m_location_projection(-1),
     m_location_vertex(-1),
     m_location_calcul(-1),
@@ -52,6 +53,9 @@ Afficheur3D::Afficheur3D (	QWidget * parent,
 
 
 void Afficheur3D::loadFractal (Fractale3D * fract) {
+
+	if(!m_initialized)		// Initialisation échouée
+		return;					// Abandon
 
     if(!fract)				// Si le pointeur n'est pas valide
         return;					// Abandonne
@@ -73,6 +77,8 @@ void Afficheur3D::initializeGL () {
 
 	glEnable(GL_DEPTH_TEST);				// Active le test de profondeur pour l'affichage des surfaces.
 
+	m_initialized = false;
+
 	// Charge les divers éléments du shader
 	if(!m_shaders->addShaderFromSourceFile(QGLShader::Vertex, ":/Shaders/Simple.vert")) {
 		QMessageBox::critical(
@@ -82,7 +88,7 @@ void Afficheur3D::initializeGL () {
 				.arg("vertex")
 				.arg(m_shaders->log())
 		);
-		QApplication::exit(1);					// ?
+		return;
 	}
 	if(!m_shaders->addShaderFromSourceFile(QGLShader::Fragment, ":/Shaders/Simple.frag")) {
 		QMessageBox::critical(
@@ -92,7 +98,7 @@ void Afficheur3D::initializeGL () {
 				.arg("fragment")
 				.arg(m_shaders->log())
 		);
-		QApplication::exit(1);
+		return;
 	}
 
 	// Activation du shader
@@ -103,7 +109,7 @@ void Afficheur3D::initializeGL () {
 			tr("Impossible de lier le shader : %1")
 				.arg(m_shaders->log())
 		);
-		QApplication::exit(1);
+		return;
 	}
 	if(m_shaders.bind()) {
 		QMessageBox::critical(
@@ -111,7 +117,7 @@ void Afficheur3D::initializeGL () {
 			tr("Fractale 3D - Erreur d'activation"),
 			tr("Impossible d'activer le shader")
 		);
-		QApplication::exit(1);
+		return;
 	}
 
 	// Récupération des localisations
@@ -123,7 +129,7 @@ void Afficheur3D::initializeGL () {
 			tr("Impossible de localiser la variable '%1' dans le shader")
 				.arg("projection")
 		);
-		QApplication::exit(1);
+		return;
 	}
 
 	m_location_vertex = m_shaders->attributeLocation("vertex");
@@ -134,7 +140,7 @@ void Afficheur3D::initializeGL () {
 			tr("Impossible de localiser la variable '%1' dans le shader")
 				.arg("vertex")
 		);
-		QApplication::exit(1);
+		return;
 	}
 
 	m_location_calcul = m_shaders->attributeLocation("modelView");
@@ -145,7 +151,7 @@ void Afficheur3D::initializeGL () {
 			tr("Impossible de localiser la variable '%1' dans le shader")
 				.arg("modelView")
 		);
-		QApplication::exit(1);
+		return;
 	}
 
 	m_location_color = m_shaders->attributeLocation("color");
@@ -156,17 +162,22 @@ void Afficheur3D::initializeGL () {
 			tr("Impossible de localiser la variable '%1' dans le shader")
 				.arg("color")
 		);
-		QApplication::exit(1);
+		return;
 	}
 
 	// Désactivation du shader
 	m_shaders->release();
+
+	m_initialized = true;
 }
 
 void Afficheur3D::paintGL () {
     QGLWidget::paintGL();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	if(!m_initialized)				// Initialisation échouée
+		return;							// Ne dessine rien
 
     if(m_fractale == 0)				// Si la fractale 'n'existe' pas
 		return;							// Nous ne dessinons rien
@@ -184,7 +195,7 @@ void Afficheur3D::paintGL () {
 			tr("Fractale 3D - Erreur d'activation"),
 			tr("Impossible d'activer le shader")
 		);
-		QApplication::exit(1);
+		return;
 	}
 
 	static const QVector<GLfloat> vertices(m_fractale->getVertices());
@@ -195,13 +206,17 @@ void Afficheur3D::paintGL () {
 
 	m_shaders->setUniformValue(m_location_projection, projection);
 
+	QMatrix4x4 calcul;
+	calcul.lookAt(QVector3D(50, 50, 50), QVector3D(0, 0, 0), QVector3D(0, 1, 0));
+
 	QProgressDialog barre(tr("Génération de la fractale en cours..."), tr("Annuler"), 0, m_fractale->maximum(), this);
     barre.setModal(true);
 
     connect(&barre, SIGNAL(canceled()), m_fractale, SLOT(cancel()));
     connect(m_fractale, SIGNAL(progression(int)), &barre, SLOT(setValue(int)));
 
-	m_fractale->paint();
+	if(m_fractale->paint())
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	m_shaders->disableAttributeArray(m_location_vertex);
 	m_shaders->release();

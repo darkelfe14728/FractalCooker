@@ -62,6 +62,8 @@
             Fractale3D * m_fractale;
             QGLShaderProgram * m_shaders;
 
+            bool m_initialized;
+
 			int m_location_projection;
             int m_location_vertex;
             int m_location_calcul;
