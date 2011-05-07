@@ -94,6 +94,10 @@
 
 			/*!
 			 *	Dessine la fractale (avec OpenGL).
+			 * 
+			 * \param[in]	modelView		Transformations de base (celles de l'utilisateur).
+			 * 
+			 * \return Vrai si le dessin à été annulé, faux sans le cas contraire.
 			 */
 			virtual bool paint (const QMatrix4x4 & modelView) = 0;
 
