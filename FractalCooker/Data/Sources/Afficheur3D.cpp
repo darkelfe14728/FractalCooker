@@ -43,8 +43,6 @@ Afficheur3D::Afficheur3D (	QWidget * parent,
     m_location_vertex(-1),
     m_location_calcul(-1),
     m_location_color(-1),
-    m_rotation(),
-    m_translation(),
     m_zoom(0.0f),
     m_transfoReference()
 {
@@ -111,7 +109,7 @@ void Afficheur3D::initializeGL () {
 		);
 		return;
 	}
-	if(m_shaders.bind()) {
+	if(m_shaders->bind()) {
 		QMessageBox::critical(
 			this,
 			tr("Fractale 3D - Erreur d'activation"),
@@ -189,7 +187,7 @@ void Afficheur3D::paintGL () {
     projection.perspective(m_zoom, static_cast<float>(taille.width()) / taille.height(), m_fractale->nearDistance(), m_fractale->farDistance());
 
 	// Active le shader
-    if(m_shaders.bind()) {
+    if(m_shaders->bind()) {
 		QMessageBox::critical(
 			this,
 			tr("Fractale 3D - Erreur d'activation"),
@@ -206,8 +204,8 @@ void Afficheur3D::paintGL () {
 
 	m_shaders->setUniformValue(m_location_projection, projection);
 
-	QMatrix4x4 calcul;
-	calcul.lookAt(QVector3D(50, 50, 50), QVector3D(0, 0, 0), QVector3D(0, 1, 0));
+	QMatrix4x4 modelView;
+	modelView.lookAt(QVector3D(50, 50, 50), QVector3D(0, 0, 0), QVector3D(0, 1, 0));
 
 	QProgressDialog barre(tr("Génération de la fractale en cours..."), tr("Annuler"), 0, m_fractale->maximum(), this);
     barre.setModal(true);
@@ -215,117 +213,13 @@ void Afficheur3D::paintGL () {
     connect(&barre, SIGNAL(canceled()), m_fractale, SLOT(cancel()));
     connect(m_fractale, SIGNAL(progression(int)), &barre, SLOT(setValue(int)));
 
-	if(m_fractale->paint())
+	if(m_fractale->paint(modelView))
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	m_shaders->disableAttributeArray(m_location_vertex);
 	m_shaders->release();
 }
 
-
-void Afficheur3D::keyPressEvent (QKeyEvent * event) {
-
-    const bool shiftPressed = event->modifiers().testFlag(Qt::ShiftModifier);
-
-    static const float	mouvRotation = 2.0,
-						mouvTransla = 0.2,
-						mouvZoom = 2.0;
-
-    switch(event->key()) {
-        /* Rotations */
-        case Qt::Key_Q: {
-            if(shiftPressed)
-                m_rotation.x -= mouvRotation;
-            else
-                m_rotation.x += mouvRotation;
-
-            updateGL();
-            break;
-        }
-        case Qt::Key_S: {
-            if(shiftPressed)
-                m_rotation.y -= mouvRotation;
-            else
-                m_rotation.y += mouvRotation;
-
-            updateGL();
-            break;
-        }
-        case Qt::Key_D: {
-            if(shiftPressed)
-                m_rotation.z -= mouvRotation;
-            else
-                m_rotation.z += mouvRotation;
-
-            updateGL();
-            break;
-        }
-
-        /* Translations */
-        case Qt::Key_A: {
-            if(shiftPressed)
-                m_translation.x -= mouvTransla;
-            else
-                m_translation.x += mouvTransla;
-
-            updateGL();
-            break;
-        }
-        case Qt::Key_Z: {
-            if(shiftPressed)
-                m_translation.y -= mouvTransla;
-            else
-                m_translation.y += mouvTransla;
-
-            updateGL();
-            break;
-        }
-        case Qt::Key_E: {
-            if(shiftPressed)
-                m_translation.z -= mouvTransla;
-            else
-                m_translation.z += mouvTransla;
-
-            updateGL();
-            break;
-        }
-
-        /* Zoom */
-        case Qt::Key_R: {
-            if(shiftPressed)
-                m_zoom += mouvZoom;
-            else
-                m_zoom -= mouvZoom;
-
-            updateGL();
-            break;
-        }
-
-        default:
-            break;
-    }
-
-    QGLWidget::keyPressEvent(event);
-}
-
-void Afficheur3D::mouseMoveEvent (QMouseEvent * event) {
-
-    const QPoint distance = event->pos() - m_transfoReference;
-    m_transfoReference = event->pos();
-
-    const Qt::MouseButtons boutons = event->buttons();
-
-    if(boutons.testFlag(Qt::LeftButton)) {
-        m_translation.x += distance.x() / 100.0;
-        m_translation.y -= distance.y() / 100.0;
-        updateGL();
-    }
-    else if(boutons.testFlag(Qt::RightButton)) {
-        m_rotation.x += distance.y();
-        m_rotation.y += distance.x();
-        updateGL();
-    }
-}
 
 void Afficheur3D::wheelEvent (QWheelEvent * event) {
 
@@ -335,9 +229,6 @@ void Afficheur3D::wheelEvent (QWheelEvent * event) {
 
 
 void Afficheur3D::reset () {
-    m_rotation = QVector3D();
-    m_translation = QVector3D();
-
     if(m_fractale == 0)
 		m_zoom = 70;
 	else

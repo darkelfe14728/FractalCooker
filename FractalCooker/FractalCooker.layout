@@ -5,10 +5,10 @@
 		<Cursor position="1208" topLine="18" />
 	</File>
 	<File name="Data/Headers/Afficheur3D.h" open="1" top="0" tabpos="1">
-		<Cursor position="1980" topLine="10" />
+		<Cursor position="1577" topLine="15" />
 	</File>
-	<File name="Data/Headers/MainWindow.h" open="0" top="0" tabpos="1">
-		<Cursor position="1762" topLine="21" />
+	<File name="Data/Headers/MainWindow.h" open="1" top="0" tabpos="4">
+		<Cursor position="1762" topLine="11" />
 	</File>
 	<File name="Data/Headers/Plugins.h" open="0" top="0" tabpos="5">
 		<Cursor position="1142" topLine="0" />
@@ -16,11 +16,11 @@
 	<File name="Data/Sources/Afficheur2D.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="4693" topLine="60" />
 	</File>
-	<File name="Data/Sources/Afficheur3D.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="5600" topLine="40" />
+	<File name="Data/Sources/Afficheur3D.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="5487" topLine="142" />
 	</File>
-	<File name="Data/Sources/MainWindow.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="4432" topLine="0" />
+	<File name="Data/Sources/MainWindow.cpp" open="1" top="1" tabpos="3">
+		<Cursor position="3681" topLine="20" />
 	</File>
 	<File name="Data/Sources/Plugins.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="1407" topLine="0" />

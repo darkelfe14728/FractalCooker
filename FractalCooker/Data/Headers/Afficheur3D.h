@@ -51,11 +51,6 @@
 			void initializeGL ();
             void paintGL ();
 
-            void keyPressEvent (QKeyEvent * event);
-            void mouseMoveEvent (QMouseEvent * event);
-            inline void mousePressEvent (QMouseEvent * event) {
-                m_transfoReference = event->pos();
-            }
             void wheelEvent (QWheelEvent * event);
 
         private:
@@ -69,8 +64,6 @@
             int m_location_calcul;
             int m_location_color;
 
-            QVector3D m_rotation;
-            QVector3D m_translation;
             float m_zoom;
 
             QPoint m_transfoReference;
