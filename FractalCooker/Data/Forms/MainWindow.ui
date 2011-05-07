@@ -14,8 +14,8 @@
    <string>FractalCooker</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Images.qrc">
-    <normaloff>:/Images/icone.png</normaloff>:/Images/icone.png</iconset>
+   <iconset resource="../Resources/Ressources.qrc">
+    <normaloff>:/Images/Icone.png</normaloff>:/Images/Icone.png</iconset>
   </property>
   <widget class="QWidget" name="widget_content">
    <layout class="QVBoxLayout" name="layout_content">
@@ -36,7 +36,7 @@
      <x>0</x>
      <y>0</y>
      <width>740</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Aide">
@@ -104,8 +104,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>335</width>
-          <height>477</height>
+          <width>71</width>
+          <height>482</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2"/>
@@ -162,7 +162,7 @@
   <tabstop>scroll_options</tabstop>
  </tabstops>
  <resources>
-  <include location="../Images.qrc"/>
+  <include location="../Resources/Ressources.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -7,7 +7,7 @@
  * Date de modification		:	mardi 18 mai 2010
  */
 
-/* Copyright (C) 2010 LEVIGNE Florent, GROCCIA Patricia, RICHARD Thomas, ROSSET Julien
+/* Copyright (C) 2010-2011 LEVIGNE Florent, GROCCIA Patricia, RICHARD Thomas, ROSSET Julien
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,20 +26,28 @@
 
 #include "Afficheur3D.h"
 
+#include <QtGui/QMessageBox>
 #include <QtGui/QPainter>
 #include <QtGui/QProgressDialog>
 
 #include <cstdio>
 
-Afficheur3D::Afficheur3D (QWidget * parent/* = 0*/,
-                          const QGLWidget * shareWidget/* = 0*/,
-                          Qt::WindowFlags f/* = 0*/) :
-    QGLWidget(parent, shareWidget, f)
+Afficheur3D::Afficheur3D (	QWidget * parent,
+							const QGLWidget * shareWidget,
+							Qt::WindowFlags f) :
+    QGLWidget(parent, shareWidget, f),
+    m_fractale(0),
+    m_shaders(new QGLShaderProgram(this)),
+    m_location_projection(-1),
+    m_location_vertex(-1),
+    m_location_calcul(-1),
+    m_location_color(-1),
+    m_rotation(),
+    m_translation(),
+    m_zoom(0.0f),
+    m_transfoReference()
 {
-    setFocusPolicy(Qt::StrongFocus);		// Pour que les touches du clavier soient prises en compte
-    reset();
-
-    m_canceled = true;
+    setFocusPolicy(Qt::StrongFocus);				// Pour que les touches du clavier soient prises en compte
 }
 
 
@@ -48,129 +56,155 @@ void Afficheur3D::loadFractal (Fractale3D * fract) {
     if(!fract)				// Si le pointeur n'est pas valide
         return;					// Abandonne
 
-    reset();
-    m_canceled = true;
     m_fractale = fract;
+    reset();
 
-    m_fractale->init(3);
+	// Initialise la fractale
+    m_fractale->init(m_shaders, m_location_calcul, m_location_color, 3);
 
-    generate();
-
-    if(m_canceled)
-        reset();
-
+	// Force l'affichage
     updateGL();
 }
 
 
 
-void Afficheur3D::paintGL () {
+void Afficheur3D::initializeGL () {
+	QGLWidget::initializeGL();
 
+	glEnable(GL_DEPTH_TEST);				// Active le test de profondeur pour l'affichage des surfaces.
+
+	// Charge les divers éléments du shader
+	if(!m_shaders->addShaderFromSourceFile(QGLShader::Vertex, ":/Shaders/Simple.vert")) {
+		QMessageBox::critical(
+			this,
+			tr("Fractale 3D - Erreur chargement"),
+			tr("Impossible de charger l'élément '%1' du shader : %2")
+				.arg("vertex")
+				.arg(m_shaders->log())
+		);
+		QApplication::exit(1);					// ?
+	}
+	if(!m_shaders->addShaderFromSourceFile(QGLShader::Fragment, ":/Shaders/Simple.frag")) {
+		QMessageBox::critical(
+			this,
+			tr("Fractale 3D - Erreur chargement"),
+			tr("Impossible de charger l'élément '%1' du shader : %2")
+				.arg("fragment")
+				.arg(m_shaders->log())
+		);
+		QApplication::exit(1);
+	}
+
+	// Activation du shader
+	if(!m_shaders->link()) {
+		QMessageBox::critical(
+			this,
+			tr("Fractale 3D - Erreur liaison"),
+			tr("Impossible de lier le shader : %1")
+				.arg(m_shaders->log())
+		);
+		QApplication::exit(1);
+	}
+	if(m_shaders.bind()) {
+		QMessageBox::critical(
+			this,
+			tr("Fractale 3D - Erreur d'activation"),
+			tr("Impossible d'activer le shader")
+		);
+		QApplication::exit(1);
+	}
+
+	// Récupération des localisations
+	m_location_projection = m_shaders->attributeLocation("projection");
+	if(m_location_projection == -1) {
+		QMessageBox::critical(
+			this,
+			tr("Fractale 3D - Erreur de localisation"),
+			tr("Impossible de localiser la variable '%1' dans le shader")
+				.arg("projection")
+		);
+		QApplication::exit(1);
+	}
+
+	m_location_vertex = m_shaders->attributeLocation("vertex");
+	if(m_location_vertex == -1) {
+		QMessageBox::critical(
+			this,
+			tr("Fractale 3D - Erreur de localisation"),
+			tr("Impossible de localiser la variable '%1' dans le shader")
+				.arg("vertex")
+		);
+		QApplication::exit(1);
+	}
+
+	m_location_calcul = m_shaders->attributeLocation("modelView");
+	if(m_location_calcul == -1) {
+		QMessageBox::critical(
+			this,
+			tr("Fractale 3D - Erreur de localisation"),
+			tr("Impossible de localiser la variable '%1' dans le shader")
+				.arg("modelView")
+		);
+		QApplication::exit(1);
+	}
+
+	m_location_color = m_shaders->attributeLocation("color");
+	if(m_location_color == -1) {
+		QMessageBox::critical(
+			this,
+			tr("Fractale 3D - Erreur de localisation"),
+			tr("Impossible de localiser la variable '%1' dans le shader")
+				.arg("color")
+		);
+		QApplication::exit(1);
+	}
+
+	// Désactivation du shader
+	m_shaders->release();
+}
+
+void Afficheur3D::paintGL () {
     QGLWidget::paintGL();
 
-    const QSize taille = geometry().size();
-
-    glViewport(0, 0, taille.width(), taille.height());
-
-    glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glPushMatrix();
-    gluPerspective(m_zoom, static_cast<float>(taille.width()) / taille.height(), 0.01, 1000);
+    if(m_fractale == 0)				// Si la fractale 'n'existe' pas
+		return;							// Nous ne dessinons rien
 
-    gluLookAt(0, 2, 2, 0, 0, 0, 0, 1, 0);
+	QMatrix4x4 projection;
+    const QSize taille(geometry().size());
 
-    glRotated(m_rotation.z, 0, 0, 1);				// Rotation sur Z
-    glRotated(m_rotation.y, 0, 1, 0);				// Rotation sur Y
-    glRotated(m_rotation.x, 1, 0, 0);				// Rotation sur X
+	// Réglage de la matrice de projection
+    projection.perspective(m_zoom, static_cast<float>(taille.width()) / taille.height(), m_fractale->nearDistance(), m_fractale->farDistance());
 
-    glTranslated(m_translation.x, m_translation.y, m_translation.z);
+	// Active le shader
+    if(m_shaders.bind()) {
+		QMessageBox::critical(
+			this,
+			tr("Fractale 3D - Erreur d'activation"),
+			tr("Impossible d'activer le shader")
+		);
+		QApplication::exit(1);
+	}
 
-    if(!m_canceled)
-    {
-        Fractale3D::CubeList::const_iterator it;
-        const Fractale3D::CubeList::const_iterator fin = m_fractale->resultat().end();
+	static const QVector<GLfloat> vertices(m_fractale->getVertices());
 
-        Fractale3D::Cube actuel;
+	// Réglage des valeurs
+	m_shaders->enableAttributeArray(m_location_vertex);
+	m_shaders->setAttributeArray(m_location_vertex, vertices.data(), 3);
 
-        for(it = m_fractale->resultat().begin(); it != fin; it++) {
-            actuel = *it;
+	m_shaders->setUniformValue(m_location_projection, projection);
 
-            glBegin(GL_QUADS);				// Démarre le dessin
+	QProgressDialog barre(tr("Génération de la fractale en cours..."), tr("Annuler"), 0, m_fractale->maximum(), this);
+    barre.setModal(true);
 
-            /* Face de devant	:	rouge */
-            if(!actuel.hiddenFaces.testFlag(Fractale3D::Cube::Avant)) {
+    connect(&barre, SIGNAL(canceled()), m_fractale, SLOT(cancel()));
+    connect(m_fractale, SIGNAL(progression(int)), &barre, SLOT(setValue(int)));
 
-                setColor(Qt::red);
+	m_fractale->paint();
 
-                setPoint(actuel.avant.haut.gauche);
-                setPoint(actuel.avant.haut.droit);
-                setPoint(actuel.avant.bas.droit);
-                setPoint(actuel.avant.bas.gauche);
-            }
-
-            /* Face de droite	:	jaune */
-            if(!actuel.hiddenFaces.testFlag(Fractale3D::Cube::Droite)) {
-
-                setColor(Qt::yellow);
-
-                setPoint(actuel.avant.haut.droit);
-                setPoint(actuel.arriere.haut.droit);
-                setPoint(actuel.arriere.bas.droit);
-                setPoint(actuel.avant.bas.droit);
-            }
-
-            /* Face de derrière	:	blanc */
-            if(!actuel.hiddenFaces.testFlag(Fractale3D::Cube::Arriere)) {
-
-                setColor(Qt::white);
-
-                setPoint(actuel.arriere.haut.droit);
-                setPoint(actuel.arriere.haut.gauche);
-                setPoint(actuel.arriere.bas.gauche);
-                setPoint(actuel.arriere.bas.droit);
-            }
-
-            /* Face de gauche	:	cyan */
-            if(!actuel.hiddenFaces.testFlag(Fractale3D::Cube::Gauche)) {
-
-                setColor(Qt::cyan);
-
-                setPoint(actuel.arriere.haut.gauche);
-                setPoint(actuel.avant.haut.gauche);
-                setPoint(actuel.avant.bas.gauche);
-                setPoint(actuel.arriere.bas.gauche);
-            }
-
-            /* Face de dessus	:	bleu */
-            if(!actuel.hiddenFaces.testFlag(Fractale3D::Cube::Haut)) {
-
-                setColor(Qt::blue);
-
-                setPoint(actuel.avant.haut.gauche);
-                setPoint(actuel.arriere.haut.gauche);
-                setPoint(actuel.arriere.haut.droit);
-                setPoint(actuel.avant.haut.droit);
-            }
-
-            /* Face de dessous	:	magenta */
-            if(!actuel.hiddenFaces.testFlag(Fractale3D::Cube::Bas)) {
-
-                setColor(Qt::magenta);
-
-                setPoint(actuel.avant.bas.gauche);
-                setPoint(actuel.arriere.bas.gauche);
-                setPoint(actuel.arriere.bas.droit);
-                setPoint(actuel.avant.bas.droit);
-            }
-
-            glEnd();						// Termine le dessin
-        }
-
-        glFlush();
-    }
-
-    glPopMatrix();
+	m_shaders->disableAttributeArray(m_location_vertex);
+	m_shaders->release();
 }
 
 
@@ -178,9 +212,9 @@ void Afficheur3D::keyPressEvent (QKeyEvent * event) {
 
     const bool shiftPressed = event->modifiers().testFlag(Qt::ShiftModifier);
 
-    const float mouvRotation = 2.0,
-                mouvTransla = 0.2,
-                mouvZoom = 2.0;
+    static const float	mouvRotation = 2.0,
+						mouvTransla = 0.2,
+						mouvZoom = 2.0;
 
     switch(event->key()) {
         /* Rotations */
@@ -285,23 +319,12 @@ void Afficheur3D::wheelEvent (QWheelEvent * event) {
 }
 
 
-void Afficheur3D::generate () {
-
-    QProgressDialog barre(tr("Génération de la fractale en cours..."), tr("Annuler"), 0, 0, this);
-    barre.setModal(true);
-
-    connect(&barre, SIGNAL(canceled()), m_fractale, SLOT(cancel()));
-
-    connect(m_fractale, SIGNAL(maximum(int)), &barre, SLOT(setMaximum(int)));
-    connect(m_fractale, SIGNAL(progression(int)), &barre, SLOT(setValue(int)));
-
-    m_fractale->generer();
-
-    m_canceled = barre.wasCanceled();
-}
-
 void Afficheur3D::reset () {
-    m_rotation = Triplet();
-    m_translation = Triplet();
-    m_zoom = 70;
+    m_rotation = QVector3D();
+    m_translation = QVector3D();
+
+    if(m_fractale == 0)
+		m_zoom = 70;
+	else
+		m_zoom = m_fractale->zoom();
 }

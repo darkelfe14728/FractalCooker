@@ -39,6 +39,10 @@
 		<Unit filename="Data/Headers/Afficheur3D.h" />
 		<Unit filename="Data/Headers/MainWindow.h" />
 		<Unit filename="Data/Headers/Plugins.h" />
+		<Unit filename="Data/Resources/Images/Icone.png" />
+		<Unit filename="Data/Resources/Ressources.qrc" />
+		<Unit filename="Data/Resources/Shaders/Simple.frag" />
+		<Unit filename="Data/Resources/Shaders/Simple.vert" />
 		<Unit filename="Data/Sources/Afficheur2D.cpp" />
 		<Unit filename="Data/Sources/Afficheur3D.cpp" />
 		<Unit filename="Data/Sources/MainWindow.cpp" />
@@ -50,6 +54,7 @@
 		<Extensions>
 			<code_completion>
 				<search_path add="$(#qt4.include)" />
+				<search_path add="../Interfaces" />
 			</code_completion>
 			<debugger />
 			<envvars />

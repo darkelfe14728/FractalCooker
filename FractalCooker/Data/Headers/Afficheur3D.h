@@ -7,7 +7,7 @@
  * Date de création			:	mardi 18 mai 2010
  */
 
-/* Copyright (C) 2010 LEVIGNE Florent, GROCCIA Patricia, RICHARD Thomas, ROSSET Julien
+/* Copyright (C) 2010-2011 LEVIGNE Florent, GROCCIA Patricia, RICHARD Thomas, ROSSET Julien
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,6 +30,7 @@
     #include <Fractale3D.h>
 
     #include <QtGui/QKeyEvent>
+    #include <QtGui/QVector3D>
     #include <QtGui/QWheelEvent>
 
     #include <QtOpenGL/QGLWidget>
@@ -46,15 +47,8 @@
 
             void loadFractal (Fractale3D * fract);
 
-            inline void clear () {
-                if(m_fractale != 0)
-                    m_fractale->clear();
-            }
-            inline bool canceled () {
-                return m_canceled;
-            }
-
         protected:
+			void initializeGL ();
             void paintGL ();
 
             void keyPressEvent (QKeyEvent * event);
@@ -65,34 +59,22 @@
             void wheelEvent (QWheelEvent * event);
 
         private:
-            struct Triplet {
-                Triplet () : x(0), y(0), z(0) {}
-
-                float x;
-                float y;
-                float z;
-            };
-
-        private:
             Fractale3D * m_fractale;
-            bool m_canceled;
+            QGLShaderProgram * m_shaders;
 
-            Triplet m_rotation;
-            Triplet m_translation;
+			int m_location_projection;
+            int m_location_vertex;
+            int m_location_calcul;
+            int m_location_color;
+
+            QVector3D m_rotation;
+            QVector3D m_translation;
             float m_zoom;
 
             QPoint m_transfoReference;
 
         private:
-            void generate ();
             void reset ();
-
-            inline void setColor (const QColor & couleur) {
-                glColor3ub(couleur.red(), couleur.green(), couleur.blue());
-            }
-            inline void setPoint (const Fractale3D::Cube::FaceType::ArreteType::SommetType & pt) {
-                glVertex3f(pt.x, pt.y, pt.z);
-            }
     };
 
     QT_END_HEADER

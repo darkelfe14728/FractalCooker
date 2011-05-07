@@ -14,6 +14,10 @@
   <property name="windowTitle">
    <string>Liste des plugins</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../Resources/Ressources.qrc">
+    <normaloff>:/Images/Icone.png</normaloff>:/Images/Icone.png</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="Text">
@@ -30,9 +34,6 @@
      <property name="columnCount">
       <number>2</number>
      </property>
-     <attribute name="headerVisible">
-      <bool>true</bool>
-     </attribute>
      <attribute name="headerVisible">
       <bool>true</bool>
      </attribute>
@@ -72,7 +73,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resources/Ressources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>Buttons</sender>

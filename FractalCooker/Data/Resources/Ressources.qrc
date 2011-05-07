@@ -1,0 +1,9 @@
+<RCC>
+	<qresource prefix="Images">
+		<file alias="Icone.png">Images/Icone.png</file>
+	</qresource>
+	<qresource prefix="Shaders">
+		<file alias="Simple.vert">Shaders/Simple.vert</file>
+		<file alias="Simple.frag">Shaders/Simple.frag</file>
+	</qresource>
+</RCC>
