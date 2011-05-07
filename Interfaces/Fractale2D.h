@@ -63,13 +63,14 @@
 			void init (	const QRect & drawZone = QRect(0, 0, 400, 300),
 						const QPointF & centre = QPointF(-1.0, 0.0),
 						const qreal & zoom = 100.0,
-						const quint32 & nbIterations = 255) {
+						const quint32 & nbIte = 255) {
 				m_drawZone = drawZone;
 				m_clipZone = QRect(QPoint(0, 0), m_drawZone.size());
 				m_centre = centre;
 				m_zoom = zoom;
-				m_nbIterations = nbIterations;
 				m_symetric = false;
+
+				setNbIterations(nbIte);
 
 				resetCancel();
 
@@ -128,21 +129,6 @@
 			 */
 			inline void setZoom (const qreal & nZoom) {
 				m_zoom = qMax(nZoom, 0.0);
-			}
-
-			/**
-			 *	\return Le nombre d'itération, c'est-à-dire la \a profondeur du calcul.
-			 */
-			inline quint32 nbIterations () const {
-				return m_nbIterations;
-			}
-			/**
-			 *	Change le nombre d'itération, c'est-à-dire la \a profondeur du calcul.
-			 *
-			 *	\param[in]	nNbIteration	Le nouveau nombre d'itération.
-			 */
-			inline void setNbIterations (const quint32 & nNbIteration) {
-				m_nbIterations = nNbIteration;
 			}
 
 			/**
