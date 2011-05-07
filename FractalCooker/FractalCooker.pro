@@ -72,4 +72,4 @@ HEADERS		+=	Data/Headers/*.h \
 				$${RACINE}/Interfaces/*.h
 SOURCES		+=	Data/Sources/*.cpp
 FORMS		+=	Data/Forms/*.ui
-RESOURCES	+=	Data/*.qrc
+RESOURCES	+=	Data/Resources/*.qrc
