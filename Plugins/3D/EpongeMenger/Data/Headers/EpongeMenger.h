@@ -54,31 +54,37 @@
 
 			const QVector<GLfloat> getVertices () const;
 
-			void paint ();
+			bool paint (const QMatrix4x4 & modelView);
 
 		private:
 			/*!
 			 *	Dessine un cube.
 			 *
-			 *	\param[in]	modelView		Matrice pour le placement du cube.
+			 *	\param[in]	calcul			Matrice pour le placement du cube.
+			 *
+			 *	\return Vrai si le dessin à été annulé.
 			 */
-			void paintCube (const QMatrix4x4 & modelView);
+			bool paintCube (const QMatrix4x4 & calcul);
 			/*!
 			 *	Dessine une itération de la fractale.
 			 *
 			 *	Level = 0 dessine un cube.
 			 *
-			 *	\param[in]	modelView		Matrice pour le placement des cubes.
+			 *	\param[in]	calcul			Matrice pour le placement des cubes.
 			 *	\param[in]	level			Niveau de l'itération.
+			 *
+			 *	\return Vrai si le dessin à été annulé.
 			 */
-			void paintIteration (QMatrix4x4 & modelView, const quint8 level);
+			bool paintIteration (QMatrix4x4 & calcul, const quint8 level);
 			/*!
 			 *	Dessine une "face" d'un itération.
 			 *
-			 *	\param[in]	modelView		Matrice pour le placement des cubes.
+			 *	\param[in]	calcul			Matrice pour le placement des cubes.
 			 *	\param[in]	level			Niveau de l'itération.
+			 *
+			 *	\return Vrai si le dessin à été annulé.
 			 */
-			void paintIterationLayer (QMatrix4x4 & modelView, const quint8 level);
+			bool paintIterationLayer (QMatrix4x4 & calcul, const quint8 level);
 
 		private:
 			/*!

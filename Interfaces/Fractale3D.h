@@ -95,7 +95,7 @@
 			/*!
 			 *	Dessine la fractale (avec OpenGL).
 			 */
-			virtual void paint (const QMatrix4x4 & modelView) = 0;
+			virtual bool paint (const QMatrix4x4 & modelView) = 0;
 
 			/*!
 			 *	\return La localisation (dans les shaders) de la matrice de calcul.

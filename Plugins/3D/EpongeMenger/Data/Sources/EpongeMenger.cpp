@@ -71,17 +71,16 @@ const QVector<GLfloat> EpongeMenger::getVertices () const  {
 }
 
 
-void EpongeMenger::paint () {
+bool EpongeMenger::paint (const QMatrix4x4 & modelView) {
 
-	QMatrix4x4 modelView;
-	modelView.lookAt(QVector3D(50, 50, 50), QVector3D(0, 0, 0), QVector3D(0, 1, 0));
+	QMatrix4x4 calcul(modelView);
 
 	m_currentProgress = 0;									// Réinitialise le compteur de progression
-	paintIteration(modelView, nbIterations());
+	return paintIteration(calcul, nbIterations());
 }
 
 
-void EpongeMenger::paintCube (const QMatrix4x4 & modelView) {
+bool EpongeMenger::paintCube (const QMatrix4x4 & calcul) {
 
 	// Déclaration des variables statiques constantes
 	static const unsigned int indices[] = {
@@ -100,7 +99,7 @@ void EpongeMenger::paintCube (const QMatrix4x4 & modelView) {
 						magenta(Qt::magenta);
 
 	// Mise en place de la "vue" pour le cube actuel
-	shaders()->setUniformValue(getCalculLocation(), modelView);
+	shaders()->setUniformValue(getCalculLocation(), calcul);
 
 	// Dessin du cube
 		// Face 1
@@ -128,80 +127,98 @@ void EpongeMenger::paintCube (const QMatrix4x4 & modelView) {
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, &(indices[30]));
 
 	emit progression(++m_currentProgress);									// Une étape de progression par cube
+
+	return isCancel();
 }
 
-void EpongeMenger::paintIteration (	QMatrix4x4 & modelView,
+bool EpongeMenger::paintIteration (	QMatrix4x4 & calcul,
 									const quint8 level) {
 
 	if(level == 0) {
-		paintCube(modelView);
-		return;
+		return paintCube(calcul);
 	}
 
 	const quint16 offset(pow(3, (level - 1)));
 
 	// Couche 1
-		paintIterationLayer(modelView, level);
+		if(paintIterationLayer(calcul, level))
+			return true;
 
 	// Couche 2
 		// Itération 1
-		modelView.translate(-2 * offset, 2 * offset, 0);
-		paintIteration(modelView, level - 1);
+		calcul.translate(-2 * offset, 2 * offset, 0);
+		if(paintIteration(calcul, level - 1))
+			return true;
 
 		// Itération 2
-		modelView.translate(0, 0, -4 * offset);
-		paintIteration(modelView, level - 1);
+		calcul.translate(0, 0, -4 * offset);
+		if(paintIteration(calcul, level - 1))
+			return true;
 
 		// Itération 2
-		modelView.translate(4 * offset, 0, 0);
-		paintIteration(modelView, level - 1);
+		calcul.translate(4 * offset, 0, 0);
+		if(paintIteration(calcul, level - 1))
+			return true;
 
 		// Itération 4
-		modelView.translate(0, 0, 4 * offset);
-		paintIteration(modelView, level - 1);
+		calcul.translate(0, 0, 4 * offset);
+		if(paintIteration(calcul, level - 1))
+			return true;
 
 	// Couche 2
-		modelView.translate(-4 * offset, 2 * offset, 0);
-		paintIterationLayer(modelView, level);
+		calcul.translate(-4 * offset, 2 * offset, 0);
+		if(paintIterationLayer(calcul, level))
+			return true;
 
-	modelView.translate(-2 * offset, -4 * offset, 0);					// Replace à la vue pour l'itération suivante
+	calcul.translate(-2 * offset, -4 * offset, 0);					// Replace à la vue pour l'itération suivante
+	return false;
 }
 
-void EpongeMenger::paintIterationLayer (QMatrix4x4 & modelView,
+bool EpongeMenger::paintIterationLayer (QMatrix4x4 & calcul,
 										const quint8 level) {
 
 	const quint16 offset(pow(3, (level - 1)));
 
 	// Itération 1
-	paintIteration(modelView, level - 1);
+	if(paintIteration(calcul, level - 1))
+		return true;
 
 	// Itération 2
-	modelView.translate(0, 0, -2 * offset);
-	paintIteration(modelView, level - 1);
+	calcul.translate(0, 0, -2 * offset);
+	if(paintIteration(calcul, level - 1))
+		return true;
 
 	// Itération offset
-	modelView.translate(0, 0, -2 * offset);
-	paintIteration(modelView, level - 1);
+	calcul.translate(0, 0, -2 * offset);
+	if(paintIteration(calcul, level - 1))
+		return true;
 
 	// Itération 4
-	modelView.translate(2 * offset, 0, 0);
-	paintIteration(modelView, level - 1);
+	calcul.translate(2 * offset, 0, 0);
+	if(paintIteration(calcul, level - 1))
+		return true;
 
 	// Itération 5
-	modelView.translate(2 * offset, 0, 0);
-	paintIteration(modelView, level - 1);
+	calcul.translate(2 * offset, 0, 0);
+	if(paintIteration(calcul, level - 1))
+		return true;
 
 	// Itération 6
-	modelView.translate(0, 0, 2 * offset);
-	paintIteration(modelView, level - 1);
+	calcul.translate(0, 0, 2 * offset);
+	if(paintIteration(calcul, level - 1))
+		return true;
 
 	// Itération 7
-	modelView.translate(0, 0, 2 * offset);
-	paintIteration(modelView, level - 1);
+	calcul.translate(0, 0, 2 * offset);
+	if(paintIteration(calcul, level - 1))
+		return true;
 
 	// Itération 8
-	modelView.translate(-2 * offset, 0, 0);
-	paintIteration(modelView, level - 1);
+	calcul.translate(-2 * offset, 0, 0);
+	if(paintIteration(calcul, level - 1))
+		return true;
+
+	return false;
 }
 
 
