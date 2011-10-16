@@ -32,10 +32,12 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Fractale2D.doc.cpp" />
 		<Unit filename="Fractale2D.h" />
 		<Unit filename="Fractale3D.h" />
 		<Unit filename="GenericFractale.doc.cpp" />
 		<Unit filename="GenericFractale.h" />
+		<Unit filename="GenericFractale.impl.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />

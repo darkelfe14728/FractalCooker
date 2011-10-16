@@ -2,7 +2,7 @@
  * Auteur					:	Rosset Julien
  *
  * Projet					:	FractalCooker/Interfaces
- * Fichier					:	Fractale2D.h
+ * Fichier					:	Fractale2D.doc.cpp
  *
  * Date de création			:	dimanche 18 septembre 2011
  */
@@ -24,34 +24,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef HEADERGUARD_INTERFACES_FRACTALE2D_H
-#define HEADERGUARD_INTERFACES_FRACTALE2D_H
-
-	#include "GenericFractale.h"
-
-	#include <QtCore/QPoint>
-	#include <QtCore/QPointF>
-	#include <QtCore/QRectF>
-	#include <QtCore/QSize>
-	#include <QtCore/QVector>
-
-	#include <QtGui/QColor>
-	#include <QtGui/QImage>
-
-	namespace Interfaces {
-		class Fractale2D :
-			public Fractale {
-
-			Q_OBJECT
-
-			public:
-				virtual ~Fractale2D () {}
-
-
-		};
-	}
-
-	Q_DECLARE_INTERFACE(Interfaces::Fractale2D, "fractalecooker.interfaces.fractale2D/1.0.0")
-
-#endif
+/**	\class Interfaces::Fractale2D
+ *	\brief Interfaces des plugins fractale 2D.
+ */
 

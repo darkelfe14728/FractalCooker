@@ -29,6 +29,7 @@
 
     #include <QtCore/QObject>
     #include <QtCore/QMutex>
+    #include <QtCore/QMutexLocker>
 
     class QString;
 
@@ -43,8 +44,37 @@
 				virtual ~GenericFractale () {}
 
 				//virtual void initialise (const quint32 nbIte) = 0;
+				virtual bool buildOptions (QWidget * parent) = 0;
 
 				virtual const QString name () const = 0;
+
+				quint32 nbIterations () const {
+					return m_nbIterations;
+				}
+				void setNbIterations (quint32 nbIte) {
+					m_nbIterations = nbIte;
+				}
+
+			public slots:
+				void cancel () {
+					QMutexLocker lock(&m_cancel_mutex);
+					m_cancel = true;
+				}
+
+			signals:
+				void progression (quint32 fait);
+
+			protected:
+				bool isCancel () {
+					QMutexLocker lock(&m_cancel_mutex);
+					return m_cancel;
+				}
+
+			protected slots:
+				void resetCancel () {
+					QMutexLocker lock(&m_cancel_mutex);
+					m_cancel = false;
+				}
 
 			private:
 				bool	m_cancel;
@@ -55,7 +85,7 @@
     }
 
 	// Il ne s'agit pas réellement d'une interface pour plugin.
-    //Q_DECLARE_INTERFACE(Fractale, "fractales.aspe.fractale/1.0.0")
+    //Q_DECLARE_INTERFACE(Interfaces::GenericFractale, "fractalcooker.interfaces.genericfractale/1.0.0")
 
 #endif
 

@@ -52,14 +52,76 @@
  *
  *	\param[in]	nbIte	Le nombre d'itération de la fractale.
  */
+/**	\fn virtual bool Interfaces::GenericFractale::buildOptions (QWidget * parent) = 0
+ *
+ *	Construit l'interface graphique dédié aux options. Celle-ci doit être le fils de \a parent.
+ *
+ *	\param[in]	parent		Le widget parent de l'interface des options.
+ *
+ *	\return Vrai si la factale dispose d'options, sinon Faux.
+ */
+
+/**	\fn virtual const QString Interfaces::GenericFractale::name () const = 0
+ *
+ *	\return Le nom de la fractale.
+ */
+
+/**	\fn quint32 Interfaces::GenericFractale::nbIterations () const
+ *
+ *	\return Le nombre d'itération de la fractale.
+ */
+/**	\fn void Interfaces::GenericFractale::setNbIterations (quint32 nbIte)
+ *
+ *	Change le nombre d'itération de la fractale.
+ *
+ *	\param[in]	nbIte	Le nouveau nombre d'itérations.
+ */
+
+
+/**	\slot void Interfaces::GenericFractale::cancel ()
+ *
+ *	Annule le calcul de la fractale.
+ */
+
+
+/**	\fn bool Interfaces::GenericFractale::isCancel ()
+ *
+ *	\return Vrai si le calcul de la fractale à été annulé, sinon Faux.
+ */
+
+
+/**	\signal void Interfaces::GenericFractale::progression (quint32 fait)
+ *
+ *	Transmet la progression du calcul.
+ *
+ *	\emitted Quand le calcul progresse.
+ */
+
+
+/** \slot void Interfaces::GenericFractale::resetCancel ()
+ *
+ *	Supprime l'annulation du calcul de la fractale.
+ */
 
 
 /**	\property bool Interfaces::GenericFractale::m_cancel
  *
  *	Est-ce que le calcul de la fractale doit être interrompu ?
+ *
+ *	\getter \ref Interfaces::GenericFractale::isCancel "isCancel".
+ *	\setter	\ref Interfaces::GenericFractale::cancel "cancel".
+ *	\resetter \ref Interfaces::GenericFractale::resetCancel "resetCancel".
  */
 /** \property QMutex Interfaces::GenericFractale::m_cancel_mutex
  *
  *	Mutex pour l'accès à la variable Interfaces::GenericFractale::m_cancel.
+ */
+
+/**	\property quint32 Interfaces::GenericFractale::m_nbIterations
+ *
+ *	Nombre d'itérations pour le calcul de la fractale (profondeur du calcul).
+ *
+ *	\getter \ref Interfaces::GenericFractale::nbIterations "nbIterations".
+ *	\setter \ref Interfaces::GenericFractale::setNbIterations "setNbIterations".
  */
 
