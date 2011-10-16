@@ -37,7 +37,6 @@
 		<Unit filename="Fractale3D.h" />
 		<Unit filename="GenericFractale.doc.cpp" />
 		<Unit filename="GenericFractale.h" />
-		<Unit filename="GenericFractale.impl.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />

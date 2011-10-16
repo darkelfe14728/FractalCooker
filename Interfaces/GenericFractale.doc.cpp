@@ -77,6 +77,11 @@
  *	\param[in]	nbIte	Le nouveau nombre d'itérations.
  */
 
+/**	\fn virtual void Interfaces::GenericFractale::generate () = 0
+ *
+ *	Lance la génération de la fractale.
+ */
+
 
 /**	\slot void Interfaces::GenericFractale::cancel ()
  *
@@ -93,6 +98,8 @@
 /**	\signal void Interfaces::GenericFractale::progression (quint32 fait)
  *
  *	Transmet la progression du calcul.
+ *
+ *	\param[out]	fait	Quantité du calcul réalisé. N'est pas un pourcentage !
  *
  *	\emitted Quand le calcul progresse.
  */

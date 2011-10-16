@@ -55,6 +55,8 @@
 					m_nbIterations = nbIte;
 				}
 
+				virtual void generate () = 0;
+
 			public slots:
 				void cancel () {
 					QMutexLocker lock(&m_cancel_mutex);
