@@ -1,5 +1,6 @@
 /*
  * Auteur					:	Rosset Julien
+ * Développeurs				:
  *
  * Projet					:	FractalCooker/Interfaces
  * Fichier					:	GenericFractale.h

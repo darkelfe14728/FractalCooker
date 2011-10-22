@@ -115,8 +115,8 @@
  *
  *	Est-ce que le calcul de la fractale doit être interrompu ?
  *
- *	\getter \ref Interfaces::GenericFractale::isCancel "isCancel".
- *	\setter	\ref Interfaces::GenericFractale::cancel "cancel".
+ *	\getter \ref Interfaces::GenericFractale::isCancel "isCancel". \n
+ *	\setter	\ref Interfaces::GenericFractale::cancel "cancel". \n
  *	\resetter \ref Interfaces::GenericFractale::resetCancel "resetCancel".
  */
 /** \property QMutex Interfaces::GenericFractale::m_cancel_mutex
@@ -128,7 +128,7 @@
  *
  *	Nombre d'itérations pour le calcul de la fractale (profondeur du calcul).
  *
- *	\getter \ref Interfaces::GenericFractale::nbIterations "nbIterations".
+ *	\getter \ref Interfaces::GenericFractale::nbIterations "nbIterations". \n
  *	\setter \ref Interfaces::GenericFractale::setNbIterations "setNbIterations".
  */
 
