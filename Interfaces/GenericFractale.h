@@ -1,6 +1,5 @@
 /*
  * Auteur					:	Rosset Julien
- * Développeurs				:
  *
  * Projet					:	FractalCooker/Interfaces
  * Fichier					:	GenericFractale.h
@@ -49,9 +48,7 @@
 
 				virtual const QString name () const = 0;
 
-				quint32 nbIterations () const {
-					return m_nbIterations;
-				}
+				quint32 nbIterations () const;
 				void setNbIterations (quint32 nbIte) {
 					m_nbIterations = nbIte;
 				}
@@ -85,6 +82,11 @@
 
 				quint32 m_nbIterations;
 		};
+
+		quint32 GenericFractale::nbIterations () const
+		{
+			return m_nbIterations;
+		}
     }
 
 	// Il ne s'agit pas réellement d'une interface pour plugin.

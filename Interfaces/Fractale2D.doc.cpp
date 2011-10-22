@@ -28,3 +28,27 @@
  *	\brief Interfaces des plugins fractale 2D.
  */
 
+
+
+/** \fn virtual Interfaces::Fractale2D::~Fractale2D ()
+ *
+ *	Détruit le plugin.
+ */
+
+
+
+/** \fn void Interfaces::Fractale2D::init (	const QRect		& drawZone	= QRect(0, 0, 400, 300),
+ *											const QPointF	& centre	= QPointF(-1.0, 0.0),
+ *											const qreal		& zoom		= 100.0,
+ *											const quint32	& nbIte		= 255)
+ *
+ *	Initialise le plugin.
+ *
+ *	\warning Cette fonction \b doit être appelée avant generate.
+ *
+ *	\param[in]	drawZone		La (taille de la) zone à générer ?
+ *	\param[in]	centre			Le point central de la fractale générée (autour de quel point se génère-t-elle ?).
+ *	\param[in]	zoom			Le facteur de zoom appliqué.
+ *	\param[in]	nbIte			Le nombre d'itération (profondeur du calcul).
+ */
+
