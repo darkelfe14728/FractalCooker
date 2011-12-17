@@ -68,40 +68,40 @@
  *
  *	\return La (taille de la) zone à générer ?
  */
-/** \fn void setDrawZone (const QRect & nRect)
+/** \fn void Interfaces::Fractale2D::setDrawZone (const QRect & nRect)
  *	Change la (taille de la) zone à générer ?
  *
  *	\param[in]	nRect	La nouvelle (taille de la) zone à générer ?
  */
 
-/** \fn qreal zoom () const
+/** \fn qreal Interfaces::Fractale2D::zoom () const
  *
  *	\return Le facteur de zoom.
  *
  *  \sa rzoom.
  */
-/** \fn qreal & rzoom ()
+/** \fn qreal & Interfaces::Fractale2D::rzoom ()
  *
  *	\return Une référence vers le facteur de zoom.
  */
-/** \fn void setZoom (const qreal & nZoom)
+/** \fn void Interfaces::Fractale2D::setZoom (const qreal & nZoom)
  *
  *	Change le facteur de zoom.
  *
  *	\param[in]	nZoom	Le nouveau facteur de zoom.
  */
 
-/** \fn const QPointF centre () const
+/** \fn const QPointF Interfaces::Fractale2D::centre () const
  *
  *	\return Le point central de la fractale générée.
  */
-/** \fn void setCentre (const QPointF & nCentre)
+/** \fn void Interfaces::Fractale2D::setCentre (const QPointF & nCentre)
  *
  *	Change le point central de la fractale générée.
  *
  *	\param[in]	nCentre		Le nouveau centre.
  */
-/** \fn void translateCentre(const QPoint & decalage)
+/** \fn void Interfaces::Fractale2D::translateCentre(const QPoint & decalage)
  *
  *	Fonction qui déplace le centre de l'image dans le plan.
  *
@@ -109,7 +109,7 @@
  */
 
 
-/** \signal void maximum (int max)
+/** \signal void Interfaces::Fractale2D::maximum (int max)
  *
  *	Transmet la valeur maximale pour la progression (c'est-à-dire la valeur correspondante à 100 %).
  *
@@ -121,7 +121,7 @@
  */
 
 
-/** \fn void addPoint (	const QPoint	& point,
+/** \fn void Interfaces::Fractale2D::addPoint (	const QPoint	& point,
  *						const quint32	& step)
  *
  *	Ajoute un point à l'image finale.
@@ -130,7 +130,7 @@
  *	\param[in]	step	Le nombre d'itération qui ont été nécessaire à la génération du point (permet de connaître sa couleur).
  */
 
-/** \fn virtual QPoint symetricOf (const QPoint & pixel) const = 0
+/** \fn virtual QPoint Interfaces::Fractale2D::symetricOf (const QPoint & pixel) const = 0
  *
  *	Calcule le point symétrique d'un autre point.
  *
@@ -138,7 +138,7 @@
  *
  *	\return Le point symétrique.
  */
-/** \fn virtual QColor couleurFromStep (const quint32 & step) const = 0
+/** \fn virtual QColor Interfaces::Fractale2D::couleurFromStep (const quint32 & step) const = 0
  *
  *	Fonction qui calcule la couleur correspondante au nombre d'itérations effectuées pour générer un point.
  *
@@ -148,40 +148,31 @@
  */
 
 
-/**	\property bool Interfaces::GenericFractale::m_cancel
- *
- *	Est-ce que le calcul de la fractale doit être interrompu ?
- *
- *	\getter \ref Interfaces::GenericFractale::isCancel "isCancel". \n
- *	\setter	\ref Interfaces::GenericFractale::cancel "cancel". \n
- *	\resetter \ref Interfaces::GenericFractale::resetCancel "resetCancel".
- */
-
-/** \property QRect m_drawZone
+/** \property QRect Interfaces::Fractale2D::m_drawZone
  *
  *  La taille de la zone à générer.
  *
- *  \getter \ref drawZone "drawZone". \n
- *  \setter \ref setDrawZone "setDrawZone".
+ *  \getter \ref Interfaces::Fractale2D::drawZone "drawZone". \n
+ *  \setter \ref Interfaces::Fractale2D::setDrawZone "setDrawZone".
  */
-/** \property QRect m_clipZone
- *
+/** \property QRect Interfaces::Fractale2D::m_clipZone
+ *  \todo Renseigner le doc...
  */
-/** \property qreal m_zoom
+/** \property qreal Interfaces::Fractale2D::m_zoom
  *
  *  Valeur du zoom
  *
- *  \getter \ref zoom "zoom", \ref rzoom "rzoom". \n
- *  \setter \ref setZoom "setZoom".
+ *  \getter \ref Interfaces::Fractale2D::zoom "zoom", \ref Interfaces::Fractale2D::rzoom "rzoom". \n
+ *  \setter \ref Interfaces::Fractale2D::setZoom "setZoom".
  */
-/** \property QPointF m_centre
+/** \property QPointF Interfaces::Fractale2D::m_centre
  *
  *  Centre de la fractale, c'est-à-dire le point visé par la génération.
  *
- *  \getter \ref centre "centre". \n
- *  \setter \ref setCentre "setCentre".
+ *  \getter \ref Interfaces::Fractale2D::centre "centre". \n
+ *  \setter \ref Interfaces::Fractale2D::setCentre "setCentre".
  */
-/** \property bool m_symetric
+/** \property bool Interfaces::Fractale2D::m_symetric
  *
  *  Est-ce que la fractale est symétrique ?
  *
@@ -189,11 +180,11 @@
  */
 
 
-/** \property QImage m_image
+/** \property QImage Interfaces::Fractale2D::m_image
  *
  *  La fractale généré.
  *
- *  \getter \ref resultat "resultat".
+ *  \getter \ref Interfaces::Fractale2D::resultat "resultat".
  *
  *  \sa addPoint.
  */
