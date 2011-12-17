@@ -2,7 +2,7 @@
  * Auteur					:	Rosset Julien
  *
  * Projet					:	FractalCooker/Interfaces
- * Fichier					:	GenericFractale.h
+ * Fichier					:	GenericFractale.cpp
  *
  * Date de création			:	samedi 17 décembre 2011
  */
