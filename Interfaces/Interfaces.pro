@@ -59,4 +59,5 @@ CODECFORSRC	=	UTF-8
 
 #Fichiers#
 HEADERS		+=	*.h
-SOURCES		+=	Data/Sources/*.cpp
+SOURCES		+=	*.cpp \
+    Fractale2D.cpp

@@ -49,32 +49,21 @@
 				virtual const QString name () const = 0;
 
 				quint32 nbIterations () const;
-				void setNbIterations (quint32 nbIte) {
-					m_nbIterations = nbIte;
-				}
+				void setNbIterations (quint32 nbIte);
 
 				virtual void generate () = 0;
 
 			public slots:
-				void cancel () {
-					QMutexLocker lock(&m_cancel_mutex);
-					m_cancel = true;
-				}
+				void cancel ();
 
 			signals:
 				void progression (quint32 fait);
 
 			protected:
-				bool isCancel () {
-					QMutexLocker lock(&m_cancel_mutex);
-					return m_cancel;
-				}
+				bool isCancel ();
 
 			protected slots:
-				void resetCancel () {
-					QMutexLocker lock(&m_cancel_mutex);
-					m_cancel = false;
-				}
+				void resetCancel ();
 
 			private:
 				bool	m_cancel;
@@ -82,11 +71,6 @@
 
 				quint32 m_nbIterations;
 		};
-
-		quint32 GenericFractale::nbIterations () const
-		{
-			return m_nbIterations;
-		}
     }
 
 	// Il ne s'agit pas réellement d'une interface pour plugin.
