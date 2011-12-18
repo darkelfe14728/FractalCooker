@@ -40,7 +40,7 @@
 
 	namespace Interfaces {
 		class Fractale2D :
-			public Fractale {
+			public GenericFractale {
 
 			Q_OBJECT
 

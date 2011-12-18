@@ -28,7 +28,7 @@
  *	\brief Interfaces des plugins fractale 3D.
  *
  *	Interface générique à toutes les fractales 3D. \n
- *	Chaque plugin de fractales 3D \underline doit hériter de cette interface.
+ *	Chaque plugin de fractales 3D \c DOIT hériter de cette interface.
  *
  *	\warning Chaque plugin créé avec cette interface utilise OpenGL, pensez donc à modifier votre projet en conséquence.
  */
@@ -48,13 +48,13 @@
 /** \fn virtual void Interfaces::Fractale3D::init (	QGLShaderProgram * shaders,
  *													const int loc_calcul,
  *													const int loc_color,
- *													const quint32 nbIterations) = 0
+ *													const quint32 nbIteration) = 0
  *
  *	Initialise le plugin.
  *
  *	\param[in]	shaders			Pointeur vers le 'programme' de shaders. Sa construction et sa destuction sont à la charge de l'unité appelante.
- *	\param[in]	loc_modelView	Localisation de la matrice de calcul.
- *	\param[in]	loc_color		Localisation de la coloration.
+ *	\param[in]	loc_calcul		Localisation de la matrice de calcul.
+ *	\param[in]	loc_color		Localisation de la variable de couleur.
  *	\param[in]	nbIteration		Le nombre d'itération (la profondeur du calcul).
  */
 
