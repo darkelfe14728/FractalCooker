@@ -44,7 +44,7 @@ void Fractale2D::init(const QRect	&drawZone,
 	m_image = QImage(drawZone.size(), QImage::Format_RGB32);
 }
 
-const QImage & Fractale2D::resultat() () const {
+const QImage & Fractale2D::resultat () const {
 	return m_image;
 }
 

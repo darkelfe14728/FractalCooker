@@ -27,7 +27,7 @@
 #include "GenericFractale.h"
 using namespace Interfaces;
 
-quint32 GenericFractale::nbIterations () {
+quint32 GenericFractale::nbIterations () const {
 	return m_nbIterations;
 }
 void GenericFractale::setNbIterations (quint32 nbIte) {
@@ -39,7 +39,7 @@ void GenericFractale::cancel () {
 	QMutexLocker lock(&m_cancel_mutex);
 	m_cancel = true;
 }
-void GenericFractale::isCancel () {
+bool GenericFractale::isCancel () {
 	QMutexLocker lock(&m_cancel_mutex);
 	return m_cancel;
 }
