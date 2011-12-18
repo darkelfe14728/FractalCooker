@@ -26,6 +26,9 @@
 
 /**	\class Interfaces::Fractale2D
  *	\brief Interfaces des plugins fractale 2D.
+ *
+ *	Interface générique à toutes les fractales 2D. \n
+ *	Chaque plugin de fractales 2D \underline doit hériter de cette interface.
  */
 
 

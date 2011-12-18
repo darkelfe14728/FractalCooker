@@ -15,7 +15,7 @@ VER_MIN		=	0
 VER_PAT		=	0
 
 ################################################# Réglages utilisateur ##################################################
-CONFIG	+=	debug
+CONFIG		+=	debug
 
 ################################################## Suffixe automatique ##################################################
 PROJECT_SUFFIX	=
@@ -31,7 +31,9 @@ VERSION		=	$${VER_MAJ}.$${VER_MIN}.$${VER_PAT}
 message(Projet $$PROJECT $$VERSION)
 
 #################################################### Configuration ######################################################
-CONFIG		+=	warn_on create_prl silent dll
+CONFIG	+=	warn_on create_prl silent dll
+
+QT		+=	opengl
 
 ####################################################### Nettoyage #######################################################
 win32:QMAKE_DISTCLEAN	+=	*_resource.rc \
@@ -60,4 +62,6 @@ CODECFORSRC	=	UTF-8
 #Fichiers#
 HEADERS		+=	*.h
 SOURCES		+=	*.cpp \
-    Fractale2D.cpp
+    Fractale2D.cpp \
+    Fractale3D.cpp \
+    Fractale3D.doc.cpp

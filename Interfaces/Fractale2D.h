@@ -31,7 +31,7 @@
 
 	#include <QtCore/QPoint>
 	#include <QtCore/QPointF>
-	#include <QtCore/QRectF>cd
+	#include <QtCore/QRectF>
 	#include <QtCore/QSize>
 	#include <QtCore/QVector>
 
