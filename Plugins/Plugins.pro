@@ -4,28 +4,18 @@
 #																														#
 #########################################################################################################################
 #																														#
-#												Projet : FractalCooker													#
+#											Projet : FractalCooker / Plugin												#
 #																														#
 #########################################################################################################################
 
 ##################################################### Application #######################################################
-APPLICATION		=	FractalCooker
+APPLICATION		=	Plugins
 
 ################################################## Paramètres globaux ###################################################
 TEMPLATE	=	subdirs
-SUBDIRS		=	Interfaces \
-				Plugins
+SUBDIRS		=	3D
 
 message(Application $$APPLICATION)
 
-
 #################################################### Configuration ######################################################
 CONFIG		+=	ordered
-
-################################################ Cibles supplémentaires #################################################
-make_doc.target		=	doc
-make_doc.commands	=	doxygen $${APPLICATION}.doxyfile > doxygen_log.log
-
-QMAKE_EXTRA_TARGETS		+=	make_doc
-
-
