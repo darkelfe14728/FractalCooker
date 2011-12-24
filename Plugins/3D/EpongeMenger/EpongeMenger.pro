@@ -55,8 +55,8 @@ CODECFORTR	=	UTF-8
 CODECFORSRC	=	UTF-8
 
 ####################################################### Fichiers ########################################################
-HEADERS		+=	Data/Headers/*.h
-SOURCES		+=	Data/Sources/*.cpp
+HEADERS		+=	*.h
+SOURCES		+=	*.cpp
 
 # Librairie #
 LIBS		+=	-L$${FINAL} -lInterfacesd
