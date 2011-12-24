@@ -1,10 +1,10 @@
 /*
- * Auteur				:	Rosset Julien
+ * Auteur				:	Rosset Julien / Levigne Florent
  *
- * Projet				:	EpongeMenger
+ * Projet				:	FractaleCooker/Plugins/3D
  * Fichier				:	EpongeMenger.cpp
  *
- * Date de création		:	mercredi 12 mai 2010
+ * Date de création		:	samedi 24 décembre 2011
  */
 
 /* Copyright (C) 2010-2011 LEVIGNE Florent, GROCCIA Patricia, RICHARD Thomas, ROSSET Julien
@@ -25,6 +25,7 @@
  */
 
 #include "EpongeMenger.h"
+using namespace Plugins::_3D;
 
 EpongeMenger::EpongeMenger () :
 	Fractale3D(),
@@ -32,6 +33,15 @@ EpongeMenger::EpongeMenger () :
 {}
 
 
+bool EpongeMenger::buildOptions (QWidget *) {
+	return false;
+}
+const QString EpongeMenger::name () const {
+	return QString("Eponge de Menger");
+}
+int EpongeMenger::maximum () const {
+	return pow(20, nbIterations());			// 20 point par itérations, puissance le nombre d'itérations
+}
 const QVector<GLfloat> EpongeMenger::getVertices () const  {
 	QVector<GLfloat> vertices;				// Cube : 8 points de 3 coordonnées
 
@@ -70,9 +80,7 @@ const QVector<GLfloat> EpongeMenger::getVertices () const  {
 	return vertices;
 }
 
-
 bool EpongeMenger::paint (const QMatrix4x4 & modelView) {
-
 	QMatrix4x4 calcul(modelView);
 
 	m_currentProgress = 0;									// Réinitialise le compteur de progression
@@ -224,5 +232,4 @@ bool EpongeMenger::paintIterationLayer (QMatrix4x4 & calcul,
 
 
 #include <QtPlugin>
-
 Q_EXPORT_PLUGIN2(EpongeMenger, EpongeMenger)

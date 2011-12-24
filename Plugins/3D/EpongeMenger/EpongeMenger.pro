@@ -29,7 +29,7 @@ VERSION		=	$${VER_MAJ}.$${VER_MIN}.$${VER_PAT}
 message(Projet $$PROJECT $$VERSION)
 
 ####################################### Mode de compilation (statique/dynamique) ########################################
-CONFIG		+=	warn_on silent plugin dll
+CONFIG		+=	warn_on silent plugin dll create_prl link_prl
 
 ####################################################### Nettoyage #######################################################
 win32:QMAKE_DISTCLEAN	+=	*_resource.rc \

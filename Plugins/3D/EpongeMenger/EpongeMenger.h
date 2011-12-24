@@ -1,10 +1,10 @@
 /*
- * Auteur				:	Rosset Julien
+ * Auteur				:	Rosset Julien / Levigne Florent
  *
- * Projet				:	EpongeMenger
+ * Projet				:	FractaleCooker/Plugins/3D
  * Fichier				:	EpongeMenger.h
  *
- * Date de création		:	mercredi 12 mai 2010
+ * Date de création		:	samedi 24 décembre 2011
  */
 
 /* Copyright (C) 2010-2011 LEVIGNE Florent, GROCCIA Patricia, RICHARD Thomas, ROSSET Julien
@@ -24,77 +24,44 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef HEADERGUARD_EPONGEMENGER_EPONGEMENGER_H
-#define HEADERGUARD_EPONGEMENGER_EPONGEMENGER_H
+#ifndef HEADERGUARD_PLUGINS_3D_EPONGEMENGER_H
+#define HEADERGUARD_PLUGINS_3D_EPONGEMENGER_H
 
     #include <Fractale3D.h>
-
 	#include <cmath>
 
 	class QMatrix4x4;
 
-	class EpongeMenger :
-		public Fractale3D {
+	namespace Plugins {
+		namespace _3D {
+			class EpongeMenger :
+				public Interfaces::Fractale3D {
 
-		Q_OBJECT
-		Q_INTERFACES(Fractale3D)
+				Q_OBJECT
+				Q_INTERFACES(Interfaces::Fractale3D)
 
-		public:
-			EpongeMenger ();
+				public:
+					EpongeMenger ();
 
-			inline void createOptions (QWidget *) {}		// Pas géré pour le moment
+					// Interface
+					virtual bool buildOptions (QWidget *);			// Pas géré pour le moment
+					virtual const QString name () const;
+					int maximum () const;
+					const QVector<GLfloat> getVertices () const;
 
-			inline QString name () const {
-				return QString("Eponge de Menger");
-			}
+					bool paint (const QMatrix4x4 & modelView);
 
-			inline int maximum () const {
-				return pow(20, nbIterations());
-			}
+				private:
+					bool paintCube (const QMatrix4x4 & calcul);
+					bool paintIteration (QMatrix4x4 & calcul,
+										 const quint8 level);
+					bool paintIterationLayer (QMatrix4x4 & calcul,
+											  const quint8 level);
 
-			const QVector<GLfloat> getVertices () const;
-
-			bool paint (const QMatrix4x4 & modelView);
-
-		private:
-			/*!
-			 *	Dessine un cube.
-			 *
-			 *	\param[in]	calcul			Matrice pour le placement du cube.
-			 *
-			 *	\return Vrai si le dessin à été annulé.
-			 */
-			bool paintCube (const QMatrix4x4 & calcul);
-			/*!
-			 *	Dessine une itération de la fractale.
-			 *
-			 *	Level = 0 dessine un cube.
-			 *
-			 *	\param[in]	calcul			Matrice pour le placement des cubes.
-			 *	\param[in]	level			Niveau de l'itération.
-			 *
-			 *	\return Vrai si le dessin à été annulé.
-			 */
-			bool paintIteration (QMatrix4x4 & calcul, const quint8 level);
-			/*!
-			 *	Dessine une "face" d'un itération.
-			 *
-			 *	\param[in]	calcul			Matrice pour le placement des cubes.
-			 *	\param[in]	level			Niveau de l'itération.
-			 *
-			 *	\return Vrai si le dessin à été annulé.
-			 */
-			bool paintIterationLayer (QMatrix4x4 & calcul, const quint8 level);
-
-		private:
-			/*!
-			 *	Compteur pour la progression.
-			 *
-			 *	0 <= valeur <= maximum()
-			 *
-			 *	\sa maximum, progression.
-			 */
-			int m_currentProgress;
-	};
+				private:
+					int m_currentProgress;
+			};
+		}
+	}
 
 #endif

@@ -42,6 +42,8 @@
 				Fractale3D ();
 				virtual ~Fractale3D () {}
 
+				inline virtual void generate () {}
+
 				virtual void init (QGLShaderProgram * shaders,
 								   const int loc_calcul,
 								   const int loc_color,
