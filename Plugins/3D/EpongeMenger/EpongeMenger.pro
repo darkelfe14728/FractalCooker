@@ -14,6 +14,9 @@ VER_MAJ		=	1
 VER_MIN		=	0
 VER_PAT		=	0
 
+################################################# Réglages utilisateur ##################################################
+win32:CONFIG(debug,debug|release):CONFIG += console
+
 ################################################## Suffixe automatique ##################################################
 PROJECT_SUFFIX	=
 CONFIG(debug, debug|release) {
@@ -58,5 +61,5 @@ CODECFORSRC	=	UTF-8
 HEADERS		+=	*.h
 SOURCES		+=	*.cpp
 
-# Librairie #
+###################################################### Librairies #######################################################
 LIBS		+=	-L$${FINAL} -lInterfacesd

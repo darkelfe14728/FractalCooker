@@ -55,13 +55,6 @@
  *	\param[in]	nbIte			Le nombre d'itération (profondeur du calcul).
  */
 
-/** \fn virtual void Interfaces::Fractale2D::generer () = 0
- *
- *	Lance la génération de la fractale.
- *
- *	\sa cancel.
- */
-
 /** \fn const QImage & Interfaces::Fractale2D::resultat () const
  *
  *	\return Le résultat de la génération, c'est-à-dire la fractale.
@@ -133,7 +126,7 @@
  *	\param[in]	step	Le nombre d'itération qui ont été nécessaire à la génération du point (permet de connaître sa couleur).
  */
 
-/** \fn virtual QPoint Interfaces::Fractale2D::symetricOf (const QPoint & pixel) const = 0
+/** \fn virtual const QPoint Interfaces::Fractale2D::symetricOf (const QPoint & pixel) const = 0
  *
  *	Calcule le point symétrique d'un autre point.
  *

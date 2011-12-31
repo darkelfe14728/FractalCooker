@@ -25,25 +25,80 @@
  */
 #include "Mandelbrot.h"
 #include <cstdio>
+using namespace Plugins::_2D;
 
-using namespace std;
-
-quint32 Mandelbrot::calculerPixel(const qreal &x, const qreal &y) const
+void Mandelbrot::generate()
 {
-    complex<qreal> z(0, 0),
-                   c(x, y);
-    quint32 i = nbIterations();
+	qint32 j = 0,
+		   offset = 0,
+		   conditionDArret;
+	qreal  debut,
+		   fin;
+	QRectF bornes(m_centre.x() + (m_drawZone.x() - 0.5 * m_drawZone.width()) / m_zoom,
+				  m_centre.y() + (m_drawZone.y() - 0.5 * m_drawZone.height()) / m_zoom,
+				  m_drawZone.width() / m_zoom,
+				  m_drawZone.height() / m_zoom);
+	QPoint pointToAdd;
+	bool escape;
 
-    while (i > 0 && abs(z) < 2)
-    {
-        z = z * z + c;
-        i--;
-    }
-    //si i = m_nbIterations --> c appartient à l'ensemble --> couleur d'arrière-plan
-    //sinon                 --> c n'apartient pas à l'ensemble --> couleur dépendant de i
-    return i;
+	resetCancel();
+
+	// Pour déterminer où se trouve la plus grande partie de la fractale par rapport à l'axe des réel
+	if (abs(bornes.top()) < abs(bornes.bottom()))
+	{
+		//partie positive
+//printf("Positif\n");
+		debut = qRound(bornes.bottom() * m_zoom) / m_zoom;
+		fin = qMax(bornes.top(), 0.0);
+
+		conditionDArret = qRound((debut - fin) * m_zoom) + 1;
+
+		m_yAxeReels = conditionDArret - 1;
+	}
+	else
+	{
+		//partie négative
+//printf("Negatif\n");
+		debut = qMin(bornes.bottom(), 0.0);
+		fin = bornes.top();
+
+		conditionDArret = qRound((debut - fin) * m_zoom);
+
+		offset = m_drawZone.height() - conditionDArret;
+
+		m_yAxeReels = offset;
+	}
+	emit maximum(conditionDArret * m_drawZone.width());
+
+	// indication de la symétrie
+	m_symetric = (m_yAxeReels > 0 && m_yAxeReels < m_drawZone.height());
+//printf("debut= %f\tfin= %f\tconditionDArret= %d\tm_yAxeReels= %d\n", debut, fin, conditionDArret, m_yAxeReels);
+	while (j < conditionDArret)
+	{
+		for (qint32 i=0; i<m_drawZone.width(); i++)
+		{
+//printf("i= %d\tj= %d\n", i, j);
+			pointToAdd = QPoint(i, j + offset);
+//printf("after point:ToAdd\n");
+			quint32 step = calculerPixel(bornes.left() + i / m_zoom, debut - j / m_zoom);
+//printf("after calculerPixel()\n");
+			addPoint(pointToAdd, step);
+//printf("after addPoint()\n");
+			emit progression(i + m_drawZone.width() * j);
+//printf("after emit progression()\n");
+			escape = isCancel();
+
+			if(escape)
+				return;
+		}
+		j++;
+//printf("End while()\n");
+	}
 }
 
+const QPoint Mandelbrot::symetricOf (const QPoint &pixel) const {
+	return QPoint(pixel.x(), 2 * m_yAxeReels - pixel.y());
+}
 QColor Mandelbrot::couleurFromStep (const quint32 & step) const {
     quint32 r = step % 256,
             v = step % 256,
@@ -52,73 +107,23 @@ QColor Mandelbrot::couleurFromStep (const quint32 & step) const {
     return QColor(r, v, b);
 }
 
-void Mandelbrot::generer()
+quint32 Mandelbrot::calculerPixel(const qreal &x, const qreal &y) const
 {
-    qint32 j = 0,
-           offset = 0,
-           conditionDArret;
-    qreal  debut,
-           fin;
-    QRectF bornes(m_centre.x() + (m_drawZone.x() - 0.5 * m_drawZone.width()) / m_zoom,
-                  m_centre.y() + (m_drawZone.y() - 0.5 * m_drawZone.height()) / m_zoom,
-                  m_drawZone.width() / m_zoom,
-                  m_drawZone.height() / m_zoom);
-    QPoint pointToAdd;
-    bool escape;
+	complex<qreal> z(0, 0),
+				   c(x, y);
+	quint32 i = nbIterations();
 
-    resetCancel();
-
-    // Pour déterminer où se trouve la plus grande partie de la fractale par rapport à l'axe des réel
-    if (abs(bornes.top()) < abs(bornes.bottom()))
-    {
-        //partie positive
-//printf("Positif\n");
-        debut = qRound(bornes.bottom() * m_zoom) / m_zoom;
-        fin = qMax(bornes.top(), 0.0);
-
-        conditionDArret = qRound((debut - fin) * m_zoom) + 1;
-
-        m_yAxeReels = conditionDArret - 1;
-    }
-    else
-    {
-        //partie négative
-//printf("Negatif\n");
-        debut = qMin(bornes.bottom(), 0.0);
-        fin = bornes.top();
-
-        conditionDArret = qRound((debut - fin) * m_zoom);
-
-        offset = m_drawZone.height() - conditionDArret;
-
-        m_yAxeReels = offset;
-    }
-    emit maximum(conditionDArret * m_drawZone.width());
-
-    // indication de la symétrie
-    m_symetric = (m_yAxeReels > 0 && m_yAxeReels < m_drawZone.height());
-//printf("debut= %f\tfin= %f\tconditionDArret= %d\tm_yAxeReels= %d\n", debut, fin, conditionDArret, m_yAxeReels);
-    while (j < conditionDArret)
-    {
-        for (qint32 i=0; i<m_drawZone.width(); i++)
-        {
-//printf("i= %d\tj= %d\n", i, j);
-            pointToAdd = QPoint(i, j + offset);
-//printf("after point:ToAdd\n");
-            quint32 step = calculerPixel(bornes.left() + i / m_zoom, debut - j / m_zoom);
-//printf("after calculerPixel()\n");
-            addPoint(pointToAdd, step);
-//printf("after addPoint()\n");
-            emit progression(i + m_drawZone.width() * j);
-//printf("after emit progression()\n");
-            escape = isCancel();
-
-            if(escape)
-                return;
-        }
-        j++;
-//printf("End while()\n");
-    }
+	while (i > 0 && abs(z) < 2)
+	{
+		z = z * z + c;
+		i--;
+	}
+	//si i = m_nbIterations --> c appartient à l'ensemble --> couleur d'arrière-plan
+	//sinon                 --> c n'apartient pas à l'ensemble --> couleur dépendant de i
+	return i;
 }
 
+
+
+#include <QtPlugin>
 Q_EXPORT_PLUGIN2(Mandelbrot, Mandelbrot)

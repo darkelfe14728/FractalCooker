@@ -1,10 +1,10 @@
 /*
- * Auteur					:	Richard Thomas
+ * Auteur					:	Rosset Julien / Richard Thomas
  *
- * Projet					:	Mandelbrot
+ * Projet					:	FractalCooker/Plugins/2D
  * Fichier					:	Mandelbrot.h
  *
- * Date de modification		:	mercredi 24 février 2010
+ * Date de modification		:	samedi 24 décembre 2011
  */
 
 /* Copyright (C) 2010 LEVIGNE Florent, GROCCIA Patricia, RICHARD Thomas, ROSSET Julien
@@ -24,71 +24,44 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef HEADER_GUARD_MANDELBROT_H
-#define HEADER_GUARD_MANDELBROT_H
+#ifndef HEADERGUARD_PLUGINS_2D_MANDELBROT_H
+#define HEADERGUARD_PLUGINS_2D_MANDELBROT_H
 
-    #include <complex>
-    #include <QtPlugin>
-    #include <Fractale2D.h>
+	#include <Fractale2D.h>
 
-    /**
-     * Classe permettant de générer l'image d'une fractale de Mandelbrot.
-     *
-     */
-    class Mandelbrot : public Fractale2D
-    {
-        Q_OBJECT
-        Q_INTERFACES(Fractale2D)
+	#include <QtCore/QtPlugin>
 
-        public:
-            /**
-             *	Crée les options du plugin.
-             *
-             *	\param[in]	parent	Le widget parent des options.
-             */
-            void createOptions (QWidget * parent);
+	#include <complex>
 
-            /**
-             * Procédure qui génère l'image de la fractale de mandelbrot.
-             * @see calculerPixel(const QPoint&)
-             */
-            void generer();
+	namespace Plugins {
+		namespace _2D {
+			class Mandelbrot :
+					public Interfaces::Fractale2D
+			{
+				Q_OBJECT
+				Q_INTERFACES(Interfaces::Fractale2D)
 
-            /**
-             * Fonction qui donne le nom de la fractale.
-             * @return "Mandelbrot"
-             */
-            inline QString name() const {
-                return QString("Mandelbrot");
-            }
+				public:
+					Mandelbrot ();
 
-        protected:
-            /**
-             * Fonction qui renvoie le symétrique d'un pixel.
-             *
-             */
-            inline QPoint symetricOf(const QPoint &pixel) const {
-                return QPoint(pixel.x(), 2 * m_yAxeReels - pixel.y());
-            }
+					// Interface
+					virtual bool buildOptions (QWidget * parent);
+					virtual const QString name() const {
+						return QString("Mandelbrot");
+					}
+					virtual void generate();
 
-            /**
-             * Fonction qui calcule le nombre d'étapes avant la divergence (ou non) de la suite pour un pixel donné.
-             * Elle calcule les termes de la suite de mandelbrot jusqu'à ce qu'elle diverge ou que le nombre maximal d'itérations soit atteint.
-             * @param Coordonnees Les coordonnées du pixel à traiter.
-             * @return Le nombre d'itérations effectuées (compris entre 0 et le nombre max. d'itérations).
-             * @see generer()
-             */
-            quint32 calculerPixel(const qreal &x, const qreal &y) const;
+				protected:
+					// Interface
+					virtual const QPoint symetricOf(const QPoint & pixel) const;
+					virtual const QColor couleurFromStep (const quint32 & step) const;
 
-            /**
-             * Fonction qui renvoie la couleur correspondant au nombre d'itérations effectué.
-             * @param Nombre d'itérations effectuées.
-             * @return La couleur à attribuer.
-             */
-            QColor couleurFromStep (const quint32 & step) const;
+					quint32 calculerPixel(const qreal &x, const qreal &y) const;
 
-        private:
-            qint32 m_yAxeReels;
-    };
+				private:
+					qint32 m_yAxeReels;
+			};
+		}
+	}
 
 #endif // HEADER_GUARD_MANDELBROT_H

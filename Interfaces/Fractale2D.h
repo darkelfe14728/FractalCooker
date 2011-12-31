@@ -52,8 +52,6 @@
 							const qreal		& zoom		= 100.0,
 							const quint32	& nbIte		= 255);
 
-				virtual void generer () = 0;
-
 				const QImage & resultat () const;
 
 				const QRect drawZone () const;
@@ -74,8 +72,8 @@
 				void addPoint (const QPoint		& point,
 							   const quint32	& step);
 
-				virtual QPoint symetricOf (const QPoint & pixel) const = 0;
-				virtual QColor couleurFromStep (const quint32 & step) const = 0;
+				virtual const QPoint symetricOf (const QPoint & pixel) const = 0;
+				virtual const QColor couleurFromStep (const quint32 & step) const = 0;
 
 			protected:
 				QRect	m_drawZone;
