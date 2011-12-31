@@ -44,8 +44,8 @@ RACINE		=	../../..
 FINAL		=	$${RACINE}/Final
 DESTDIR		=	$${RACINE}/Final/Plugins
 
-OBJECTS_DIR	=	Temp/objs$${PROJECT_SUFFIX}
-MOC_DIR		=	Temp/mocs$${PROJECT_SUFFIX}
+OBJECTS_DIR	=	$${RACINE}/Temp/$${PROJECT}/objs$${PROJECT_SUFFIX}
+MOC_DIR		=	$${RACINE}/Temp/$${PROJECT}/mocs$${PROJECT_SUFFIX}
 
 ##################################################### Configuration #####################################################
 INCLUDEPATH	+=	Data/Headers \
