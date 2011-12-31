@@ -99,7 +99,7 @@ void Mandelbrot::generate()
 const QPoint Mandelbrot::symetricOf (const QPoint &pixel) const {
 	return QPoint(pixel.x(), 2 * m_yAxeReels - pixel.y());
 }
-QColor Mandelbrot::couleurFromStep (const quint32 & step) const {
+const QColor Mandelbrot::couleurFromStep (const quint32 & step) const {
     quint32 r = step % 256,
             v = step % 256,
             b = (20 + step) % 256;
@@ -109,8 +109,10 @@ QColor Mandelbrot::couleurFromStep (const quint32 & step) const {
 
 quint32 Mandelbrot::calculerPixel(const qreal &x, const qreal &y) const
 {
-	complex<qreal> z(0, 0),
-				   c(x, y);
+	std::complex<qreal>
+			z(0, 0),
+			c(x, y);
+
 	quint32 i = nbIterations();
 
 	while (i > 0 && abs(z) < 2)
