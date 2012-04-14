@@ -4,3 +4,4 @@ Documentation/
 
 Makefile*
 *.log
+*.pro.user
