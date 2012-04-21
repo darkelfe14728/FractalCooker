@@ -24,17 +24,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#include <QtCore/QTextCodec>
+#include <QtGui/QApplication>
+
 #include "MainWindow.h"
-#include "ui_MainWindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
-	QMainWindow(parent),
-	ui(new Ui::MainWindow)
-{
-	ui->setupUi(this);
-}
+int main (int argc, char ** argv) {
+	QApplication app(argc, argv);
+	QTextCodec::setCodecForTr(QTextCodec::codecForName ("UTF-8"));
 
-MainWindow::~MainWindow()
-{
-	delete ui;
+	MainWindow fen;
+	fen.resize (400, 300);
+	fen.show ();
+
+	return app.exec ();
 }

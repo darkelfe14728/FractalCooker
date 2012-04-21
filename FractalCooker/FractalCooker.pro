@@ -26,7 +26,7 @@ CONFIG(debug, debug|release) {
 
 ################################################## Paramètres globaux ###################################################
 TARGET		=	$${PROJECT}$${PROJECT_SUFFIX}
-TEMPLATE	=	lib
+TEMPLATE	=	app
 VERSION		=	$${VER_MAJ}.$${VER_MIN}.$${VER_PAT}
 
 message(Projet $$PROJECT $$VERSION)

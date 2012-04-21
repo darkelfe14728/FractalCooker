@@ -6,20 +6,33 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>541</width>
-    <height>185</height>
+    <width>650</width>
+    <height>318</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="widget_content"/>
+  <widget class="QWidget" name="widget_content">
+   <layout class="QVBoxLayout" name="vlayout_widget_content">
+    <item>
+     <widget class="QStackedWidget" name="stack_afficheurs">
+      <widget class="QWidget" name="page_afficheur_2D">
+       <layout class="QVBoxLayout" name="vlayout_page_afficheur_2D"/>
+      </widget>
+      <widget class="QWidget" name="page_afficheur_3D">
+       <layout class="QVBoxLayout" name="vlayout_page_afficheur_3D"/>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>541</width>
+     <width>650</width>
      <height>24</height>
     </rect>
    </property>
@@ -29,27 +42,77 @@
     </property>
     <addaction name="action_Programme_Quitter"/>
    </widget>
-   <widget class="QMenu" name="menuPlu_gins">
+   <widget class="QMenu" name="menu_Plugins">
     <property name="title">
      <string>Plu&amp;gins</string>
     </property>
-    <widget class="QMenu" name="menu2D">
+    <widget class="QMenu" name="menu_Plugins_2D">
      <property name="title">
-      <string>2D</string>
+      <string>&amp;2D</string>
      </property>
     </widget>
-    <widget class="QMenu" name="menu3D">
+    <widget class="QMenu" name="menu_Plugins_3D">
      <property name="title">
-      <string>3D</string>
+      <string>&amp;3D</string>
      </property>
     </widget>
-    <addaction name="menu2D"/>
-    <addaction name="menu3D"/>
+    <addaction name="menu_Plugins_2D"/>
+    <addaction name="menu_Plugins_3D"/>
+    <addaction name="separator"/>
+    <addaction name="action_Plugins_Options"/>
+   </widget>
+   <widget class="QMenu" name="menu_Aide">
+    <property name="title">
+     <string>&amp;Aide</string>
+    </property>
+    <addaction name="action_Aide_About"/>
+    <addaction name="action_Aide_AboutPlugins"/>
+    <addaction name="action_Aide_AboutQt"/>
    </widget>
    <addaction name="menu_Programme"/>
-   <addaction name="menuPlu_gins"/>
+   <addaction name="menu_Plugins"/>
+   <addaction name="menu_Aide"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QDockWidget" name="dock_options">
+   <property name="windowTitle">
+    <string>Options</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidget_options">
+    <layout class="QVBoxLayout" name="vlayout_dockWidget_options">
+     <property name="margin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QScrollArea" name="scroll_options">
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <widget class="QWidget" name="scrollWidget_options">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>112</width>
+          <height>255</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="vlayout_scrollWidget_options"/>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <action name="action_Programme_Quitter">
    <property name="text">
     <string>&amp;Quitter</string>
@@ -61,7 +124,94 @@
     <string>Ctrl+Q</string>
    </property>
   </action>
+  <action name="action_Aide_About">
+   <property name="text">
+    <string>A propos de FractalCooker</string>
+   </property>
+   <property name="statusTip">
+    <string>Affiche des informations sur le programme</string>
+   </property>
+  </action>
+  <action name="action_Aide_AboutPlugins">
+   <property name="text">
+    <string>A propos des plugins</string>
+   </property>
+   <property name="statusTip">
+    <string>Affiches des informations sur les plugins</string>
+   </property>
+  </action>
+  <action name="action_Aide_AboutQt">
+   <property name="text">
+    <string>A propos de Qt</string>
+   </property>
+   <property name="statusTip">
+    <string>Affiche des informations sur Qt</string>
+   </property>
+  </action>
+  <action name="action_Plugins_Options">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Options</string>
+   </property>
+   <property name="statusTip">
+    <string>Affiche / Cache le fenêtre des options</string>
+   </property>
+  </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>action_Programme_Quitter</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>324</x>
+     <y>158</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Plugins_Options</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>dock_options</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>593</x>
+     <y>161</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dock_options</sender>
+   <signal>visibilityChanged(bool)</signal>
+   <receiver>action_Plugins_Options</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>593</x>
+     <y>161</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
