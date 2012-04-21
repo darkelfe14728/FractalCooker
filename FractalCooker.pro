@@ -14,7 +14,8 @@ APPLICATION		=	FractalCooker
 ################################################## Paramètres globaux ###################################################
 TEMPLATE	=	subdirs
 SUBDIRS		=	Interfaces \
-				Plugins
+				Plugins \
+				FractalCooker
 
 message(Application $$APPLICATION)
 
