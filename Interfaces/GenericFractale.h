@@ -41,7 +41,7 @@
 
 			public:
 				GenericFractale () : m_cancel(false), m_cancel_mutex(), m_nbIterations(0) {}
-				virtual ~GenericFractale () {}
+                inline virtual ~GenericFractale () {}
 
 				//virtual void initialise (const quint32 nbIte) = 0;
 				virtual bool buildOptions (QWidget * parent) = 0;

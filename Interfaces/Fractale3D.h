@@ -40,7 +40,7 @@
 
 			public:
 				Fractale3D ();
-				virtual ~Fractale3D () {}
+                inline virtual ~Fractale3D () {}
 
 				inline virtual void generate () {}
 
