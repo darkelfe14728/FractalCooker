@@ -60,4 +60,4 @@ HEADERS		+=	*.h
 SOURCES		+=	*.cpp
 
 ###################################################### Librairies #######################################################
-LIBS		+=	-L$${FINAL} -lInterfacesd
+LIBS		+=	-L$${FINAL} -lInterfaces$${PROJECT_SUFFIX}
