@@ -45,7 +45,7 @@ class MainWindow : public QMainWindow
 		Ui::MainWindow *ui;
 
 	private slots:
-		void on_action_aide_about_triggered ();
+		void on_action_Aide_About_triggered ();
 };
 
 #endif // HEADERGUARD_FRACTALCOOKER_MAINWINDOW_H

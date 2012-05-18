@@ -27,6 +27,8 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include "AProposDe.h"
+
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
@@ -40,6 +42,7 @@ MainWindow::~MainWindow()
 
 
 
-void MainWindow::on_action_aide_about_triggered () {
-
+void MainWindow::on_action_Aide_About_triggered () {
+	AProposDe dialog;
+	dialog.exec ();
 }
