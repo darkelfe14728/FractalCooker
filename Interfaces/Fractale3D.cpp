@@ -32,6 +32,9 @@ Fractale3D::Fractale3D () :
 	m_location_calcul(-1),
 	m_location_color(-1)
 {}
+Fractale3D::~Fractale3D () {}
+
+void Fractale3D::generate () {}
 
 void Fractale3D::init (QGLShaderProgram * shaders,
 					   const int loc_calcul,

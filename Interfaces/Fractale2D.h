@@ -45,7 +45,7 @@
 			Q_OBJECT
 
 			public:
-                inline virtual ~Fractale2D () {}
+				virtual ~Fractale2D ();
 
 				void init (	const QRect		& drawZone	= QRect(0, 0, 400, 300),
 							const QPointF	& centre	= QPointF(-1.0, 0.0),

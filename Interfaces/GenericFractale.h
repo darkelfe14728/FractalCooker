@@ -27,21 +27,21 @@
 #ifndef HEADERGUARD_INTERFACES_FRACTALE_H
 #define HEADERGUARD_INTERFACES_FRACTALE_H
 
-    #include <QtCore/QObject>
-    #include <QtCore/QMutex>
-    #include <QtCore/QMutexLocker>
+	#include <QtCore/QObject>
+	#include <QtCore/QMutex>
+	#include <QtCore/QMutexLocker>
 
-    class QString;
+	class QString;
 
-    namespace Interfaces {
+	namespace Interfaces {
 		class GenericFractale :
 			public QObject {
 
 			Q_OBJECT
 
 			public:
-				GenericFractale () : m_cancel(false), m_cancel_mutex(), m_nbIterations(0) {}
-                inline virtual ~GenericFractale () {}
+				GenericFractale ();
+				virtual ~GenericFractale ();
 
 				//virtual void initialise (const quint32 nbIte) = 0;
 				virtual bool buildOptions (QWidget * parent) = 0;
@@ -71,10 +71,10 @@
 
 				quint32 m_nbIterations;
 		};
-    }
+	}
 
 	// Il ne s'agit pas réellement d'une interface pour plugin.
-    //Q_DECLARE_INTERFACE(Interfaces::GenericFractale, "fractalcooker.interfaces.genericfractale/1.0.0")
+	//Q_DECLARE_INTERFACE(Interfaces::GenericFractale, "fractalcooker.interfaces.genericfractale/1.0.0")
 
 #endif
 

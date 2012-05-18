@@ -27,6 +27,13 @@
 #include "GenericFractale.h"
 using namespace Interfaces;
 
+GenericFractale::GenericFractale () :
+	m_cancel(false),
+	m_cancel_mutex(),
+	m_nbIterations(0)
+{}
+GenericFractale::~GenericFractale () {}
+
 quint32 GenericFractale::nbIterations () const {
 	return m_nbIterations;
 }

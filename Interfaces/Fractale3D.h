@@ -40,9 +40,9 @@
 
 			public:
 				Fractale3D ();
-                inline virtual ~Fractale3D () {}
+				virtual ~Fractale3D ();
 
-				inline virtual void generate () {}
+				virtual void generate ();
 
 				virtual void init (QGLShaderProgram * shaders,
 								   const int loc_calcul,
