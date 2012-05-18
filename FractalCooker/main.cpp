@@ -34,8 +34,8 @@ int main (int argc, char ** argv) {
 	QTextCodec::setCodecForTr(QTextCodec::codecForName ("UTF-8"));
 
 	MainWindow fen;
-	fen.resize (400, 300);
-	fen.show ();
+	fen.resize (800, 600);
+	fen.showMaximized ();
 
 	return app.exec ();
 }

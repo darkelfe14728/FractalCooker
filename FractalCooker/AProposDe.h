@@ -2,9 +2,9 @@
  * Auteur					:	Rosset Julien
  *
  * Projet					:	FractalCooker/FractalCooker
- * Fichier					:	MainWindow.h
+ * Fichier					:	AProposDe.h
  *
- * Date de création			:	samedi 21 avril 2012
+ * Date de création			:	vendredi 18 mai 2012
  */
 
 /* Copyright (C) 2010-2012 LEVIGNE Florent, GROCCIA Patricia, RICHARD Thomas, ROSSET Julien
@@ -24,28 +24,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifndef HEADERGUARD_FRACTALCOOKER_MAINWINDOW_H
-#define HEADERGUARD_FRACTALCOOKER_MAINWINDOW_H
+#ifndef HEADERGUARD_FRACTACOOCKER_APROPOSDE_H
+#define HEADERGUARD_FRACTALCOOKER_APROPOSDE_H
 
-#include <QtGui/QMainWindow>
+#include <QtGui/QDialog>
 
 namespace Ui {
-	class MainWindow;
+	class AProposDe;
 }
 
-class MainWindow : public QMainWindow
+class AProposDe : public QDialog
 {
 		Q_OBJECT
 
 	public:
-		explicit MainWindow(QWidget *parent = 0);
-		~MainWindow();
+		explicit AProposDe(QWidget *parent = 0);
+		~AProposDe();
 
 	private:
-		Ui::MainWindow *ui;
-
-	private slots:
-		void on_action_aide_about_triggered ();
+		Ui::AProposDe *ui;
 };
 
-#endif // HEADERGUARD_FRACTALCOOKER_MAINWINDOW_H
+#endif // HEADERGUARD_FRACTALCOOKER_APROPOSDE_H

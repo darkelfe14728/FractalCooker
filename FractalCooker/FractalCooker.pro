@@ -57,7 +57,7 @@ UI_DIR		=	$${RACINE}/Temp/$${PROJECT}/uics$${PROJECT_SUFFIX}
 RCC_DIR		=	$${RACINE}/Temp/$${PROJECT}/rccs$${PROJECT_SUFFIX}
 
 ###################################################### Librairies #######################################################
-LIBS		+=	-L$${DESTDIR} -lInterfacesd
+LIBS		+=	-L$${DESTDIR} -lInterfaces$${PROJECT_SUFFIX}
 
 ##################################################### Configuration #####################################################
 CODECFORTR	=	UTF-8
