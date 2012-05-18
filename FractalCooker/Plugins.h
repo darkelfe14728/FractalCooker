@@ -2,7 +2,7 @@
  * Auteur					:	Rosset Julien
  *
  * Projet					:	FractalCooker/FractalCooker
- * Fichier					:	AProposDe.cpp
+ * Fichier					:	Plugins.h
  *
  * Date de création			:	vendredi 18 mai 2012
  */
@@ -24,29 +24,43 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#include "AProposDe.h"
-#include "ui_AProposDe.h"
+#ifndef HEADERGUARD_FRACTALCOOKER_PLUGINS_H
+#define HEADERGUARD_FRACTALCOOKER_PLUGINS_H
 
-AProposDe::AProposDe(QWidget *parent) :
-	QDialog(parent),
-	ui(new Ui::AProposDe())
+#include <QtCore/QDir>
+#include <QtGui/QDialog>
+
+class QActionGroup;
+class QMenu;
+class QStandardItem;
+class QStandardItemModel;
+
+namespace Ui {
+	class Plugins;
+}
+
+class Plugins : public QDialog
 {
-	ui->setupUi(this);
-}
-AProposDe::~AProposDe () {
-	delete ui;
-}
+		Q_OBJECT
 
+	public:
+		explicit Plugins(QWidget *parent = 0);
+		~Plugins();
 
+		void searchPlugins (QActionGroup * group, QMenu * menu_2D, QMenu * menu_3D);
 
-void AProposDe::changeEvent(QEvent *e)
-{
-	QDialog::changeEvent(e);
-	switch (e->type()) {
-		case QEvent::LanguageChange:
-			ui->retranslateUi(this);
-			break;
-		default:
-			break;
-	}
-}
+	protected:
+		void changeEvent(QEvent *e);
+
+	private:
+		Ui::Plugins *ui;
+		QStandardItemModel *m_model;
+
+		void createModel ();
+		const QDir getPluginsDir () const;
+		void addPluginToMenu (QObject * plugin, const QString & name, const QString & path, QActionGroup * group,
+							  QMenu * menu);
+		void addPluginToTree (QStandardItem * group, const QString & name, const QString & path);
+};
+
+#endif // HEADERGUARD_FRACTALCOOKER_PLUGINS_H

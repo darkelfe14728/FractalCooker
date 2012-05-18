@@ -41,6 +41,9 @@ class AProposDe : public QDialog
 		explicit AProposDe(QWidget *parent = 0);
 		~AProposDe();
 
+	protected:
+		void changeEvent(QEvent *e);
+
 	private:
 		Ui::AProposDe *ui;
 };

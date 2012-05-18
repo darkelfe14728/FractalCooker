@@ -29,6 +29,9 @@
 
 #include <QtGui/QMainWindow>
 
+class Plugins;
+class QActionGroup;
+
 namespace Ui {
 	class MainWindow;
 }
@@ -41,11 +44,16 @@ class MainWindow : public QMainWindow
 		explicit MainWindow(QWidget *parent = 0);
 		~MainWindow();
 
+	protected:
+		void changeEvent(QEvent *e);
+
 	private:
 		Ui::MainWindow *ui;
+		Plugins *m_plugins_dialog;
+		QActionGroup *m_plugins_group;
 
 	private slots:
-		void on_action_Aide_About_triggered ();
+		void on_action_Aide_About_triggered();
 };
 
 #endif // HEADERGUARD_FRACTALCOOKER_MAINWINDOW_H

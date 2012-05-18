@@ -63,6 +63,8 @@ LIBS		+=	-L$${DESTDIR} -lInterfaces$${PROJECT_SUFFIX}
 CODECFORTR	=	UTF-8
 CODECFORSRC	=	UTF-8
 
+INCLUDEPATH	=	$$RACINE
+
 #Fichiers#
 HEADERS		+=	*.h
 SOURCES		+=	*.cpp
