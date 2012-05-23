@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_plugins_group = new QActionGroup(ui->menu_Plugins);
 	m_plugins_group->setExclusive(true);
 
+	connect(ui->action_Aide_AboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 	//connect(m_plugins_group, SIGNAL(triggered(QAction*)), this, SLOT(loadPlugin(QAction*)));
 
 	m_plugins_dialog->searchPlugins(m_plugins_group, ui->menu_Plugins_2D, ui->menu_Plugins_3D);
