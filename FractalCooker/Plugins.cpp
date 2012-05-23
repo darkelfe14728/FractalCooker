@@ -131,6 +131,7 @@ void Plugins::addPluginToMenu(QObject *plugin, const QString &name, const QStrin
 	QAction * action = new QAction(name, plugin);
 	action->setCheckable(true);
 	action->setToolTip(path);
+	action->setStatusTip(path);
 
 	group->addAction(action);
 	menu->addAction(action);
