@@ -30,6 +30,9 @@
 #include "AProposDe.h"
 #include "Plugins.h"
 
+#include <Interfaces/Fractale2D.h>
+#include <Interfaces/Fractale3D.h>
+
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
@@ -42,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_plugins_group->setExclusive(true);
 
 	connect(ui->action_Aide_AboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-	//connect(m_plugins_group, SIGNAL(triggered(QAction*)), this, SLOT(loadPlugin(QAction*)));
+	connect(m_plugins_group, SIGNAL(triggered(QAction*)), this, SLOT(loadFractale(QAction*)));
 
 	m_plugins_dialog->searchPlugins(m_plugins_group, ui->menu_Plugins_2D, ui->menu_Plugins_3D);
 	connect(ui->action_Aide_AboutPlugins, SIGNAL(triggered()), m_plugins_dialog, SLOT(exec()));
@@ -72,4 +75,22 @@ void MainWindow::changeEvent(QEvent *e)
 void MainWindow::on_action_Aide_About_triggered () {
 	AProposDe dialog(this);
 	dialog.exec ();
+}
+
+
+void MainWindow::loadFractale (QAction *action) {
+	QObject * plugin = action->parent ();			// Récupère le plugin associé à l'action
+
+	Interfaces::Fractale2D * fract2D = qobject_cast<Interfaces::Fractale2D *>(plugin);
+	if(fract2D) {
+		ui->stack_afficheurs->setCurrentWidget (ui->page_afficheur_2D);
+		//ui->page_afficheur_2D->loadFractale(fract2D);
+	}
+	else {
+		Interfaces::Fractale3D * fract3D = qobject_cast<Interfaces::Fractale3D *>(plugin);
+		if(fract3D) {
+			ui->stack_afficheurs->setCurrentWidget (ui->page_afficheur_3D);
+			ui->page_afficheur_3D->loadFractale (fract3D);
+		}
+	}
 }

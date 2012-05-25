@@ -43,7 +43,7 @@ int EpongeMenger::maximum () const {
 	return pow(20, nbIterations());			// 20 point par itérations, puissance le nombre d'itérations
 }
 const QVector<GLfloat> EpongeMenger::getVertices () const  {
-	QVector<GLfloat> vertices;				// Cube : 8 points de 3 coordonnées
+	QVector<GLfloat> vertices(24);			// Cube : 8 points de 3 coordonnées
 
 	vertices[0] = -1;
 	vertices[1] = -1;

@@ -66,8 +66,7 @@ CODECFORSRC	=	UTF-8
 INCLUDEPATH	=	$$RACINE
 
 #Fichiers#
-HEADERS		+=	*.h \
-    Afficheur3D.h
+HEADERS		+=	*.h
 SOURCES		+=	*.cpp
 FORMS		+=	*.ui
 RESOURCES	+=	*.qrc

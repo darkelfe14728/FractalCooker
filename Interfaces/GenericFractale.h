@@ -57,7 +57,7 @@
 				void cancel ();
 
 			signals:
-				void progression (quint32 fait);
+				void progression (int fait);
 
 			protected:
 				bool isCancel ();

@@ -54,6 +54,8 @@ class MainWindow : public QMainWindow
 
 	private slots:
 		void on_action_Aide_About_triggered();
+
+		void loadFractale (QAction * action);
 };
 
 #endif // HEADERGUARD_FRACTALCOOKER_MAINWINDOW_H

@@ -54,7 +54,7 @@ Afficheur3D::Afficheur3D(QWidget *parent, const QGLWidget *shareWidget, Qt::Wind
 
 
 void Afficheur3D::loadFractale (Interfaces::Fractale3D *fract) {
-	if(m_initialized)		// Afficheur al initialisé ?
+	if(!m_initialized)		// Afficheur al initialisé ?
 		return;					// Abandon
 
 	if(!fract)				// Fracatale invalide
@@ -172,13 +172,15 @@ void Afficheur3D::paintGL () {
 	QGLWidget::paintGL ();									// Dessine la "zone" OpenGL via la classe mère
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Initialise OpenGL
 
+	qDebug("repainting...");
+
 	if(m_fractale == 0)										// Pas de fractale ?
 		return;													// On s'arrête là
 	if(!m_initialized)										// Afficheur mal initialisé
 		return;													// Idem : on s'arrête là
 
 	// Active les shaders
-	if(m_shaders->bind ()) {
+	if(!m_shaders->bind ()) {
 		QMessageBox::critical (
 			this,
 			tr("Afficheur de fractales 3D - Erreur lors de l'affichage de la fractale"),
@@ -205,17 +207,18 @@ void Afficheur3D::paintGL () {
 	m_shaders->setAttributeArray (m_location_vertex, m_fractale->getVertices().data(), 3);
 
 	// Crée et initialise la barre de progression
-	QProgressDialog barre(
-		tr("Génération de la fractale en cours..."),		// Message
-		tr("Annuler"),										// Label du bouton d'annulation
-		0,													// La valeur minimale
-		m_fractale->maximum (),								// La valeur maximale : dépend de la fractale...
-		this												// La boite de dialogue dépend de l'afficheur
-	);
-	barre.setModal (true);									// Bloque toutes les opérations lors de l'affichage
+//	QProgressDialog barre(
+//		tr("Génération de la fractale en cours..."),		// Message
+//		tr("Annuler"),										// Label du bouton d'annulation
+//		0,													// La valeur minimale
+//		m_fractale->maximum (),								// La valeur maximale : dépend de la fractale...
+//		0												// La boite de dialogue dépend de l'afficheur
+//	);
+//	barre.setModal (true);									// Bloque toutes les opérations lors de l'affichage
+//	barre.show ();
 
-	connect (&barre, SIGNAL(canceled()), m_fractale, SLOT(cancel()));				// Clic sur le bouton annuler : annule
-	connect (m_fractale, SIGNAL(progression(int)), &barre, SLOT(setValue(int)));	// Transmission de la progression
+//	connect (&barre, SIGNAL(canceled()), m_fractale, SLOT(cancel()));				// Clic sur le bouton annuler : annule
+//	connect (m_fractale, SIGNAL(progression(int)), &barre, SLOT(setValue(int)));	// Transmission de la progression
 
 	// Dessin de la fractale
 	QMatrix4x4 modelView;									// Matrice pour les calculs d'affichage
