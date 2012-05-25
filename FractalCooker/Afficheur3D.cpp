@@ -54,7 +54,7 @@ Afficheur3D::Afficheur3D(QWidget *parent, const QGLWidget *shareWidget, Qt::Wind
 
 
 void Afficheur3D::loadFractale (Interfaces::Fractale3D *fract) {
-	if(!m_initialized)		// Afficheur al initialisé ?
+	if(!m_initialized)		// Afficheur mal initialisé ?
 		return;					// Abandon
 
 	if(!fract)				// Fracatale invalide
@@ -171,8 +171,6 @@ void Afficheur3D::paintGL () {
 	// Initialise l'environnement
 	QGLWidget::paintGL ();									// Dessine la "zone" OpenGL via la classe mère
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Initialise OpenGL
-
-	qDebug("repainting...");
 
 	if(m_fractale == 0)										// Pas de fractale ?
 		return;													// On s'arrête là
