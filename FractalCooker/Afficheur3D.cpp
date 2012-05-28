@@ -74,7 +74,7 @@ void Afficheur3D::initializeGL () {
 
 	// Initialisation de l'environnement
 	QGLWidget::initializeGL ();								// Initialisation via la classe mère
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// Initialise OpenGL
+	glEnable(GL_DEPTH_TEST);								// Active le test de profondeur pour l'affichage des surfaces.
 
 	// Charge les shaders
 	if(!m_shaders->addShaderFromSourceFile (QGLShader::Vertex, ":/Shaders/Simple.vert")) {
