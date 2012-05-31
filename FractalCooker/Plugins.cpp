@@ -25,7 +25,7 @@
  */
 
 #include "Plugins.h"
-#include "ui_plugins.h"
+#include "ui_Plugins.h"
 
 #include <Interfaces/Fractale2D.h>
 #include <Interfaces/Fractale3D.h>
