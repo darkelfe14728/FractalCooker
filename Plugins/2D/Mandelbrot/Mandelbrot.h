@@ -45,10 +45,8 @@
 					Mandelbrot ();
 
 					// Interface
-					virtual bool buildOptions (QWidget * parent);
-					virtual const QString name() const {
-						return QString("Mandelbrot");
-					}
+                    virtual bool buildOptions (QWidget *);			// Pas géré pour le moment
+                    virtual const QString name() const;
 					virtual void generate();
 
 				protected:

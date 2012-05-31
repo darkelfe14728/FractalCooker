@@ -24,11 +24,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 #include "Mandelbrot.h"
-#include <cstdio>
 using namespace Plugins::_2D;
 
-void Mandelbrot::generate()
-{
+Mandelbrot::Mandelbrot() :
+    Fractale2D()
+{}
+
+bool Mandelbrot::buildOptions (QWidget *) {
+    return false;
+}
+
+const QString Mandelbrot::name() const {
+    return QString("Mandelbrot");
+}
+
+void Mandelbrot::generate() {
 	qint32 j = 0,
 		   offset = 0,
 		   conditionDArret;
@@ -46,8 +56,7 @@ void Mandelbrot::generate()
 	// Pour déterminer où se trouve la plus grande partie de la fractale par rapport à l'axe des réel
 	if (abs(bornes.top()) < abs(bornes.bottom()))
 	{
-		//partie positive
-//printf("Positif\n");
+        //partie positive
 		debut = qRound(bornes.bottom() * m_zoom) / m_zoom;
 		fin = qMax(bornes.top(), 0.0);
 
@@ -57,8 +66,7 @@ void Mandelbrot::generate()
 	}
 	else
 	{
-		//partie négative
-//printf("Negatif\n");
+        //partie négative
 		debut = qMin(bornes.bottom(), 0.0);
 		fin = bornes.top();
 
